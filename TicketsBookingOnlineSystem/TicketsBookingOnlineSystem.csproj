@@ -167,6 +167,7 @@
     <Compile Include="App_Start\IdentityConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
+    <Compile Include="Context\CinemaDbContext.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
@@ -174,8 +175,19 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\Auditorium.cs" />
+    <Compile Include="Models\City.cs" />
+    <Compile Include="Models\Creator.cs" />
+    <Compile Include="Models\CreatorImage.cs" />
+    <Compile Include="Models\Film.cs" />
+    <Compile Include="Models\FilmImage.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
+    <Compile Include="Models\Reservation.cs" />
+    <Compile Include="Models\Row.cs" />
+    <Compile Include="Models\Seance.cs" />
+    <Compile Include="Models\Spot.cs" />
+    <Compile Include="Models\User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
