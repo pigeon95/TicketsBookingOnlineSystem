@@ -12,8 +12,8 @@ namespace TicketsBookingOnlineSystem.Models
         public string Title { get; set; }
         public bool Deleted { get; set; }
 
-        public virtual List<FilmImage> FilmImages { get; set; }
-        public virtual List<Creator> Creators { get; set; }
+        public virtual IList<FilmImage> FilmImages { get; set; }
+        public virtual IList<Creator> Creators { get; set; }
     }
 
 }

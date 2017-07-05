@@ -19,6 +19,6 @@ namespace TicketsBookingOnlineSystem.Models
         public bool Deleted { get; set; }
 
         public virtual City City { get; set; }
-        public virtual List<Reservation> Reservations { get; set; }
+        public virtual IList<Reservation> Reservations { get; set; }
     }
 }

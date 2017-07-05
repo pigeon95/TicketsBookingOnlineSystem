@@ -14,6 +14,6 @@ namespace TicketsBookingOnlineSystem.Models
         public bool Deleted { get; set; }
 
         public virtual Auditorium Auditorium { get; set; }
-        public virtual List<Spot> Spots { get; set; }
+        public virtual IList<Spot> Spots { get; set; }
     }
 }

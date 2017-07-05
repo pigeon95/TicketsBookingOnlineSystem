@@ -17,6 +17,6 @@ namespace TicketsBookingOnlineSystem.Models
 
         public virtual User User { get; set; }
         public virtual Seance Seance { get; set; }
-        public virtual List<Spot> Spots { get; set; }
+        public virtual IList<Spot> Spots { get; set; }
     }
 }

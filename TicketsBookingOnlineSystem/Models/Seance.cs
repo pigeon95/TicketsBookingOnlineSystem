@@ -15,6 +15,6 @@ namespace TicketsBookingOnlineSystem.Models
 
         public virtual Auditorium Auditorium { get; set; }
         public virtual Film Film { get; set; }
-        public virtual List<Reservation> Reservations { get; set; }
+        public virtual IList<Reservation> Reservations { get; set; }
     }
 }
