@@ -20,6 +20,11 @@ namespace TicketsBookingOnlineSystem.Context
             public DbSet<Seance> Seances { get; set; }
             public DbSet<User> Users { get; set; }
 
-            public CinemaDbContext() : base("DefaultConnection") { }
+        protected override void OnModelCreating(DbModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+        }
+
+        public CinemaDbContext() : base("DefaultConnection") { }
     }
 }

@@ -13,7 +13,7 @@ namespace TicketsBookingOnlineSystem.Migrations
         
         string IMigrationMetadata.Id
         {
-            get { return "201707051459278_InitialModels"; }
+            get { return "201707052208461_InitialModels"; }
         }
         
         string IMigrationMetadata.Source
