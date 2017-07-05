@@ -10,5 +10,8 @@ namespace TicketsBookingOnlineSystem.Models
         public int Id { get; set; }
         public string Name { get; set; }
         public bool Deleted { get; set; }
+
+        public virtual List<Seance> Seances { get; set; }
+        public virtual List<Row> Rows { get; set; }
     }
 }

@@ -12,5 +12,8 @@ namespace TicketsBookingOnlineSystem.Models
         public int SpotCount { get; set; }
         public string Name { get; set; }
         public bool Deleted { get; set; }
+
+        public virtual Auditorium Auditorium { get; set; }
+        public virtual List<Spot> Spots { get; set; }
     }
 }

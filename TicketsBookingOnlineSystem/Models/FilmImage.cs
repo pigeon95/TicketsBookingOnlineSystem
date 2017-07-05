@@ -12,5 +12,7 @@ namespace TicketsBookingOnlineSystem.Models
         public string Alt { get; set; }
         public string Description { get; set; }
         public bool Deleted { get; set; }
+
+        public virtual Film Film { get; set; }
     }
 }

@@ -11,7 +11,10 @@ namespace TicketsBookingOnlineSystem.Models
         public string Name { get; set; }
         public decimal Price { get; set; }
         public DateTime Date { get; set; }
-        public Auditorium Auditorium { get; set; }
         public bool Deleted { get; set; }
+
+        public virtual Auditorium Auditorium { get; set; }
+        public virtual Film Film { get; set; }
+        public virtual List<Reservation> Reservations { get; set; }
     }
 }

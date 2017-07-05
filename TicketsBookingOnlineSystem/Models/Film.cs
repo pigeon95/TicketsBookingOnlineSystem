@@ -8,10 +8,12 @@ namespace TicketsBookingOnlineSystem.Models
     public class Film
     {
         public int Id { get; set; }
-        public FilmImage FilmImage { get; set; }
         public TimeSpan Duration { get; set; }
         public string Title { get; set; }
-        public Creator Creator { get; set; }
         public bool Deleted { get; set; }
+
+        public virtual List<FilmImage> FilmImages { get; set; }
+        public virtual List<Creator> Creators { get; set; }
     }
+
 }
