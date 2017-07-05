@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Web;
 
@@ -15,7 +16,9 @@ namespace TicketsBookingOnlineSystem.Models
         public DateTime Date { get; set; }
         public bool Deleted { get; set; }
 
+        [ForeignKey("UserId")]
         public virtual User User { get; set; }
+        [ForeignKey("SeanceId")]
         public virtual Seance Seance { get; set; }
         public virtual IList<Spot> Spots { get; set; }
     }
