@@ -1,0 +1,11 @@
+﻿@model TicketsBookingOnlineSystem.ViewModels.UserViewLogin
+
+@{
+    ViewBag.Title = "AfterLogin";
+}
+
+<h2>AfterLogin</h2>
+@if (Session["LoggedUserEmail"] != null)
+{
+    <div>Witaj</div>
+}

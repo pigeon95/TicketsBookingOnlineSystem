@@ -27,6 +27,7 @@ namespace TicketsBookingOnlineSystem.ViewModels
         public DateTime? BirthDate { get; set; }
         [DisplayName("Miasto")]
         public virtual City City { get; set; }
+        [System.Web.Mvc.Remote("IsUserExists", "Register", ErrorMessage = "Użytkownik o podanym emailu już istnieje, proszę wybrać inny.")]
         [Required(ErrorMessage = "Proszę podać swój email")]
         [EmailAddress(ErrorMessage = "Podany email jest nieprawidłowy")]
         public string Email { get; set; }
