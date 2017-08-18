@@ -8,17 +8,17 @@ using TicketsBookingOnlineSystem.Models;
 
 namespace TicketsBookingOnlineSystem.ViewModels
 {
-    public class UserViewModel
+    public class UserViewEdit
     {
         [DisplayName("Imię")]
-        [Required(ErrorMessage="Proszę podać swoje imię.", AllowEmptyStrings=false)]
+        [Required(ErrorMessage = "Proszę podać swoje imię.", AllowEmptyStrings = false)]
         public string Name { get; set; }
         [DisplayName("Nazwisko")]
         [Required(ErrorMessage = "Proszę podać swoje nazwisko.", AllowEmptyStrings = false)]
         public string Surname { get; set; }
         [DisplayName("Hasło")]
         [Required(ErrorMessage = "Proszę podać swoje hasło.", AllowEmptyStrings = false)]
-        [StringLength(50, MinimumLength=8, ErrorMessage ="Hasło musi posiadać conajmniej 8 znaków.")]
+        [StringLength(50, MinimumLength = 8, ErrorMessage = "Hasło musi posiadać conajmniej 8 znaków.")]
         public string Password { get; set; }
         [DisplayName("Powtórz hasło")]
         [Compare("Password", ErrorMessage = "Podane hasło się nie zgadza.")]
@@ -26,7 +26,7 @@ namespace TicketsBookingOnlineSystem.ViewModels
         [DisplayName("Data urodzenia")]
         public DateTime? BirthDate { get; set; }
         [DisplayName("Miasto")]
-        public virtual string City { get; set; }
+        public string City { get; set; }
         [System.Web.Mvc.Remote("IsUserExists", "Register", ErrorMessage = "Użytkownik o podanym emailu już istnieje, proszę wybrać inny.")]
         [Required(ErrorMessage = "Proszę podać swój email")]
         [EmailAddress(ErrorMessage = "Podany email jest nieprawidłowy")]

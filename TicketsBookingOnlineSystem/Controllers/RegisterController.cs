@@ -34,9 +34,10 @@ namespace TicketsBookingOnlineSystem.Controllers
                 entity.Surname = user.Surname;
                 entity.Password = user.Password;
                 entity.BirthDate = user.BirthDate;
-                entity.City = user.City;
+                var city = db.Cities.FirstOrDefault(c => c.Name == user.City);
+                //entity.City = user.City;
                 entity.Email = user.Email;
-
+                
                 db.Users.Add(entity);
                 db.SaveChanges();
 

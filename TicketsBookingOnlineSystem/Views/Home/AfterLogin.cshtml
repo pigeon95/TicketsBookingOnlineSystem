@@ -8,4 +8,5 @@
 @if (Session["LoggedUserEmail"] != null)
 {
     <div>Witaj</div>
+    <div>@Html.ActionLink("Moje konto", "Edit", "Edit")</div>
 }
