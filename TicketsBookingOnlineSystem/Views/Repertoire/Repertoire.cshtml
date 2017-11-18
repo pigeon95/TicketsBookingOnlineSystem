@@ -1,0 +1,40 @@
+﻿@model TicketsBookingOnlineSystem.ViewModels.SeanceDateViewModel
+
+@{
+    ViewBag.Title = "Repertoire";
+}
+
+<h2>Repertuar</h2>
+
+@foreach (var item in Model.DateMenu)
+{
+     @*@Html.DisplayFor(modelItem => item.Date.DayOfWeek) <a>&nbsp;</a>*@
+     @Html.ActionLink(item.Date.DayOfWeek.ToString(), "Repertoire", "Repertoire", new { id = item.Date.ToString("dd-MM-yyyy") }, null) <a>&nbsp;</a>
+}
+
+<table class="table">
+    <tr>
+        <th>
+            Tytuł
+        </th>
+        <th>
+            Gatunek
+        </th>
+        <th>
+            Czas trwania
+        </th>
+    </tr>
+
+    @foreach (var item in Model.Films)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Film.Title)
+            </td>
+    
+        </tr>
+    }
+
+</table>
+
+@*Html.ActionLink(item.Title, "Index", "FilmDetails", new { id = item.Id }, new { })*@

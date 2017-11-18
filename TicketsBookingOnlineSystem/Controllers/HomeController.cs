@@ -1,8 +1,11 @@
-﻿using System;
+﻿using Microsoft.AspNet.Identity;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Security;
 using TicketsBookingOnlineSystem.Context;
 using TicketsBookingOnlineSystem.Models;
 using TicketsBookingOnlineSystem.ViewModels;
@@ -17,59 +20,5 @@ namespace TicketsBookingOnlineSystem.Controllers
         {
             return View();
         }
-
-        //public ActionResult About()
-        //{
-        //    ViewBag.Message = "Your application description page.";
-
-        //    return View();
-        //}
-
-        //public ActionResult Contact()
-        //{
-        //    ViewBag.Message = "Your contact page.";
-
-        //    return View();
-        //}
-
-        public ActionResult Login()
-        {
-            return View();
-        }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Login(UserViewLogin u)
-        {
-            if (!ModelState.IsValid)
-            {
-                return View(u);
-            }
-
-            using (CinemaDbContext db = new CinemaDbContext())
-            {
-                var v = db.Users.FirstOrDefault(a => a.Email == u.Email && a.Password == u.Password);
-                if (v != null)
-                {
-                    Session["LoggedUserID"] = v.Id;
-                    Session["LoggedUserEmail"] = v.Email.ToString();
-                    return RedirectToAction("AfterLogin");
-                }
-            }
-            return View(u);
-        }
-
-        public ActionResult AfterLogin()
-        {
-            if (Session["LoggedUserID"] != null)
-            {
-                return View();
-            }
-            else
-            {
-                return RedirectToAction("Index");
-            }
-        }
     }
-
 }

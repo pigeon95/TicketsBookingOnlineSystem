@@ -20,5 +20,6 @@ namespace TicketsBookingOnlineSystem.Models
 
         public virtual City City { get; set; }
         public virtual IList<Reservation> Reservations { get; set; }
+        public UserRoleEnum Role { get; set; }
     }
 }

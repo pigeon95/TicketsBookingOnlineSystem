@@ -1,0 +1,47 @@
+﻿@model TicketsBookingOnlineSystem.ViewModels.FilmDetailsViewModel
+
+@{
+    ViewBag.Title = "FilmDetails";
+}
+<div>
+    <h4>@Html.DisplayFor(model => model.Title)</h4>
+    <hr />
+    <dl class="dl-horizontal">
+
+        <dt>
+            Gatunek:
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FilmGenreName)
+        </dd>
+
+        <dt>
+            Czas trwania:
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Duration)
+        </dd>
+
+        <dd>
+            @foreach (var item in Model.FilmImages)
+            {
+                <img src= "@item.Alt" alt ="Mountain View" width=300 height="300">
+            }
+        </dd>
+
+        <dt>
+            Daty seansu:
+        </dt>
+
+        <dd>
+            @foreach (var item in Model.Seances)
+            {
+                @Html.DisplayFor(modelItem => item.Date)
+            }
+        </dd> 
+
+    </dl>
+
+</div>

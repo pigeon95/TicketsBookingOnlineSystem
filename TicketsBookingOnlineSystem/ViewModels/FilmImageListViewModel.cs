@@ -1,0 +1,12 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+
+namespace TicketsBookingOnlineSystem.ViewModels
+{
+    public class FilmImageListViewModel
+    {
+        public List<FilmImageViewModel> FilmImages { get; set; }
+    }
+}
