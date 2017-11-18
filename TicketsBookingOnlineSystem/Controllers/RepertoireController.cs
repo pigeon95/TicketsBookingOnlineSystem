@@ -30,18 +30,10 @@ namespace TicketsBookingOnlineSystem.Controllers
             {
                 dt = DateTime.ParseExact(id, "dd-MM-yyyy", CultureInfo.InvariantCulture);
             }
-            
 
-            //var films = db.Films.ToList();
+            var seances = db.Seances.Where(s => s.Date.Day == dt.Day && s.Date.Month == dt.Month && s.Date.Year == dt.Year).ToList();
 
-            //var entity = db.Seances
-            //    .FirstOrDefault(x => x.Date == dt);
-
-            //var entity = db.Films.Where(x => x.Seances.Any(s => s.Date.Date == dt.Value.Date));
-
-            var entity = db.Films.Where(x => x.Seances.Any(s => s.Date.Day == dt.Day && s.Date.Month == dt.Month && s.Date.Year == dt.Year)).ToList();
-
-            var model = new SeanceDateViewModel();  //wczesniej FilmListViewModel
+            var model = new SeanceDateViewModel();  
 
             var dates = new List<MenuDateViewModel>();
 
@@ -53,11 +45,16 @@ namespace TicketsBookingOnlineSystem.Controllers
                 dayModel.Date = date;
 
                 dates.Add(dayModel);
-
                 date = date.AddDays(1);
             }
 
-            model.Films = Mapper.Map<List<FilmForDateViewModel>>(entity); //wczesniej FilmViewModel
+            var films = seances.GroupBy(
+                f => f.Film.Id,
+                (key, value) => new FilmForDateViewModel {
+                    Film = Mapper.Map<FilmViewModel>(value.First().Film)
+                }).ToList();
+
+            model.Films = films;
             model.DateMenu = dates;
             return View(model);
         }

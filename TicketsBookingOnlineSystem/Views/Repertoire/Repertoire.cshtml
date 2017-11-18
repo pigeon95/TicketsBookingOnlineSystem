@@ -5,11 +5,10 @@
 }
 
 <h2>Repertuar</h2>
-
+<h4>Dzień</h4>
 @foreach (var item in Model.DateMenu)
 {
-     @*@Html.DisplayFor(modelItem => item.Date.DayOfWeek) <a>&nbsp;</a>*@
-     @Html.ActionLink(item.Date.DayOfWeek.ToString(), "Repertoire", "Repertoire", new { id = item.Date.ToString("dd-MM-yyyy") }, null) <a>&nbsp;</a>
+    @Html.ActionLink(item.Date.ToString("dd.MM.yyyy"), "Repertoire", "Repertoire", new { id = item.Date.ToString("dd-MM-yyyy") }, null) <a>&nbsp;</a>
 }
 
 <table class="table">
@@ -29,9 +28,14 @@
     {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.Film.Title)
+                @Html.ActionLink(item.Film.Title, "Index", "FilmDetails", new { id = item.Film.Id }, new { })
             </td>
-    
+            <td>
+                @Html.DisplayFor(modelItem => item.Film.FilmGenreName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Film.Duration)
+            </td>
         </tr>
     }
 
