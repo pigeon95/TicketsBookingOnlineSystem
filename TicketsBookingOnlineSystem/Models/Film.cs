@@ -17,6 +17,4 @@ namespace TicketsBookingOnlineSystem.Models
         public virtual FilmGenre FilmGenre { get; set; }
         public virtual IList<Seance> Seances { get; set; }
     }
-
-
 }

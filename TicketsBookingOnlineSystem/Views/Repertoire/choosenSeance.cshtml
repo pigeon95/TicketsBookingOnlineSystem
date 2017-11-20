@@ -1,0 +1,47 @@
+﻿@model TicketsBookingOnlineSystem.ViewModels.SeanceViewModel
+
+@{
+    ViewBag.Title = "choosenSeance";
+}
+
+<h2>Seans</h2>
+
+<div>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.FilmTitle)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FilmTitle)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Price)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Price)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Date)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Date)
+        </dd>
+
+    </dl>
+
+    @Html.ActionLink("Rezerwacja", "Index", "Seance", new { id = Model.Id }, null)
+
+</div>

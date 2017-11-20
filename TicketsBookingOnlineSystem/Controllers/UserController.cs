@@ -30,20 +30,7 @@ namespace TicketsBookingOnlineSystem.Controllers
             //var user = new UserViewEdit();
 
             var model = Mapper.Map<UserEditViewModel>(entity);
-            //if (entity != null)
-            //{
-            //    user.Name = entity.Name;
-            //    user.Surname = entity.Surname;
-            //    user.Password = entity.Password;
-            //    user.BirthDate = entity.BirthDate;
-            //    user.Address = entity.Address;
-            //    user.Phone = entity.Phone;
-            //    if(entity.City != null)
-            //    {
-            //        user.City = entity.City.Name;
-            //    }
-            //    user.Email = entity.Email;
-            //}
+
             return View(model);
         }
 

@@ -22,7 +22,7 @@ namespace TicketsBookingOnlineSystem.Controllers
             CinemaDbContext db = new CinemaDbContext();
             DateTime dt;
 
-            if (id ==null)
+            if (id == null)
             {
                 dt = DateTime.Now;
             }
@@ -51,12 +51,33 @@ namespace TicketsBookingOnlineSystem.Controllers
             var films = seances.GroupBy(
                 f => f.Film.Id,
                 (key, value) => new FilmForDateViewModel {
-                    Film = Mapper.Map<FilmViewModel>(value.First().Film)
+                    Film = Mapper.Map<FilmViewModel>(value.First().Film),
+                    Seances = Mapper.Map<List<SeanceViewModel>>(value)
                 }).ToList();
 
             model.Films = films;
             model.DateMenu = dates;
             return View(model);
+        }
+
+        public ActionResult choosenSeance(int id)
+        {
+            CinemaDbContext db = new CinemaDbContext();
+
+            var entity = db.Seances
+                .FirstOrDefault(x => x.Id == id);
+
+
+            if (entity == null)
+            {
+                //errorseansu nie znaleziono
+                return View();
+            }
+
+            var model = Mapper.Map<SeanceViewModel>(entity);
+
+            return View(model);
+
         }
         
     }
