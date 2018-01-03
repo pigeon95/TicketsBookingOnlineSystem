@@ -6,19 +6,39 @@
         @Html.AntiForgeryToken()
 
         <ul class="nav navbar-nav navbar-right">
-            <li>
-                @Html.ActionLink("Hello " + User.Identity.GetUserName() + "!", "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" })
-            </li>
-            <li>@Html.ActionLink("Moje konto", "Edit", "User")</li>
-            <li>@Html.ActionLink("Wyloguj się", "LogOut", "Account")</li>
-        </ul>
-    }
-}
-else
-{
-    <ul class="nav navbar-nav navbar-right">
-        <li>@Html.ActionLink("Regulamin", "Login", "Account")</li>
-        <li>@Html.ActionLink("Kontakt", "Login", "Account")</li>
-        <li>@Html.ActionLink("Zaloguj się", "Login", "Account")</li>
-    </ul>
-}
+            @*<li>
+                    @Html.ActionLink("Hello " + User.Identity.GetUserName() + "!", "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" })
+                </li>*@
+            @if (User.IsInRole("Admin"))
+            {
+                <li class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">Panel administratora<span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li>@Html.ActionLink("Filmy", "CreateFilm", "Admin")</li>
+                        <li>@Html.ActionLink("Seanse", "CreateSeance", "Admin")</li>
+                        <li><a href="#">Grafiki</a></li>
+                        <li><a href="#">Twórcy filmowi</a></li>
+                        <li>@Html.ActionLink("Użytkownicy", "Users", "Admin")</li>
+                    </ul>
+                </li>
+            }              
+                <li>@Html.ActionLink("Kontakt", "Login", "Account")</li>
+                <li class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">Moje konto<span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li>@Html.ActionLink("Edytuj", "Edit", "User")</li>
+                        <li>@Html.ActionLink("Wyloguj się", "LogOut", "Account")</li>
+                    </ul>
+                </li>
+            </ul>
+            }
+            }
+            else
+            {
+            <ul class="nav navbar-nav navbar-right">
+                <li>@Html.ActionLink("Regulamin", "Login", "Account")</li>
+                <li>@Html.ActionLink("Zaloguj się", "Login", "Account")</li>
+            </ul>
+            }
+
+

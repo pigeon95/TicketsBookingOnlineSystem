@@ -167,12 +167,19 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="App_GlobalResources\Resource.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resource.resx</DependentUpon>
+    </Compile>
     <Compile Include="App_Start\AutoMapperConfig.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Context\CinemaDbContext.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\AdminController.cs" />
+    <Compile Include="Controllers\FilmGenresController.cs" />
     <Compile Include="Controllers\SeanceController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Controllers\FilmDetailsController.cs" />
@@ -205,13 +212,43 @@
     <Compile Include="Migrations\201709271908083_mig6.Designer.cs">
       <DependentUpon>201709271908083_mig6.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201711212003545_NextMigration.cs" />
+    <Compile Include="Migrations\201711212003545_NextMigration.Designer.cs">
+      <DependentUpon>201711212003545_NextMigration.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201712152029252_kolejna.cs" />
+    <Compile Include="Migrations\201712152029252_kolejna.Designer.cs">
+      <DependentUpon>201712152029252_kolejna.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201712152037214_something.cs" />
+    <Compile Include="Migrations\201712152037214_something.Designer.cs">
+      <DependentUpon>201712152037214_something.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201712152042132_next.cs" />
+    <Compile Include="Migrations\201712152042132_next.Designer.cs">
+      <DependentUpon>201712152042132_next.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201712152043249_jakastam.cs" />
+    <Compile Include="Migrations\201712152043249_jakastam.Designer.cs">
+      <DependentUpon>201712152043249_jakastam.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201712161031215_jakaaas.cs" />
+    <Compile Include="Migrations\201712161031215_jakaaas.Designer.cs">
+      <DependentUpon>201712161031215_jakaaas.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201712171028443_asd.cs" />
+    <Compile Include="Migrations\201712171028443_asd.Designer.cs">
+      <DependentUpon>201712171028443_asd.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201712171329433_add_image.cs" />
+    <Compile Include="Migrations\201712171329433_add_image.Designer.cs">
+      <DependentUpon>201712171329433_add_image.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Auditorium.cs" />
     <Compile Include="Models\City.cs" />
     <Compile Include="Models\Creator.cs" />
-    <Compile Include="Models\CreatorImage.cs" />
     <Compile Include="Models\Film.cs" />
-    <Compile Include="Models\FilmCreator.cs" />
     <Compile Include="Models\FilmGenre.cs" />
     <Compile Include="Models\FilmImage.cs" />
     <Compile Include="Models\Reservation.cs" />
@@ -222,9 +259,12 @@
     <Compile Include="Models\UserRoleEnum.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
-    <Compile Include="ViewModels\CreatorViewModel.cs" />
+    <Compile Include="ViewModels\AddFilmViewModel.cs" />
+    <Compile Include="ViewModels\AddSeanceViewModel.cs" />
+    <Compile Include="ViewModels\EditFilmViewModel.cs" />
     <Compile Include="ViewModels\FilmDetailsViewModel.cs" />
     <Compile Include="ViewModels\FilmForDateViewModel.cs" />
+    <Compile Include="ViewModels\FilmForListViewModel.cs" />
     <Compile Include="ViewModels\FilmImageListViewModel.cs" />
     <Compile Include="ViewModels\FilmImageViewModel.cs" />
     <Compile Include="ViewModels\FilmListViewModel.cs" />
@@ -237,6 +277,7 @@
     <Compile Include="ViewModels\UserEditViewModel.cs" />
     <Compile Include="ViewModels\UserLoginViewModel.cs" />
     <Compile Include="ViewModels\UserRegisterViewModel.cs" />
+    <Compile Include="ViewModels\UserViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="App_Data\CinemaDbContext.mdf" />
@@ -248,6 +289,9 @@
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\img\carousel-logo.jpg" />
+    <Content Include="Content\img\carousel-logo171036625.jpg" />
+    <Content Include="Content\img\carousel-logo171928930.jpg" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -291,12 +335,23 @@
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\Account\Register.cshtml" />
     <Content Include="Views\Account\Login.cshtml" />
-    <Content Include="Views\Account\AfterLogin.cshtml" />
     <Content Include="Views\User\Edit.cshtml" />
     <Content Include="Views\Repertoire\Repertoire.cshtml" />
     <Content Include="Views\FilmDetails\Index.cshtml" />
     <Content Include="Views\Repertoire\choosenSeance.cshtml" />
     <Content Include="Views\Seance\Index.cshtml" />
+    <Content Include="Views\Admin\CreateFilm.cshtml" />
+    <Content Include="Views\Admin\CreateSeance.cshtml" />
+    <Content Include="Views\Admin\EditSeance.cshtml" />
+    <Content Include="Views\Admin\Users.cshtml" />
+    <Content Include="Views\Admin\FilmList.cshtml" />
+    <Content Include="Views\Admin\SeanceList.cshtml" />
+    <Content Include="Views\FilmGenres\Drama.cshtml" />
+    <Content Include="Views\FilmGenres\Comedy.cshtml" />
+    <Content Include="Views\FilmGenres\Horror.cshtml" />
+    <Content Include="Views\FilmGenres\Action.cshtml" />
+    <Content Include="Views\Admin\EditFilm.cshtml" />
+    <Content Include="Views\Admin\EditFilmTest.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
@@ -305,6 +360,10 @@
     <Content Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="App_GlobalResources\Resource.resx">
+      <Generator>GlobalResourceProxyGenerator</Generator>
+      <LastGenOutput>Resource.Designer.cs</LastGenOutput>
+    </Content>
     <EmbeddedResource Include="Migrations\201707052208461_InitialModels.resx">
       <DependentUpon>201707052208461_InitialModels.cs</DependentUpon>
     </EmbeddedResource>
@@ -323,8 +382,33 @@
     <EmbeddedResource Include="Migrations\201709271908083_mig6.resx">
       <DependentUpon>201709271908083_mig6.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201711212003545_NextMigration.resx">
+      <DependentUpon>201711212003545_NextMigration.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201712152029252_kolejna.resx">
+      <DependentUpon>201712152029252_kolejna.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201712152037214_something.resx">
+      <DependentUpon>201712152037214_something.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201712152042132_next.resx">
+      <DependentUpon>201712152042132_next.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201712152043249_jakastam.resx">
+      <DependentUpon>201712152043249_jakastam.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201712161031215_jakaaas.resx">
+      <DependentUpon>201712161031215_jakaaas.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201712171028443_asd.resx">
+      <DependentUpon>201712171028443_asd.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201712171329433_add_image.resx">
+      <DependentUpon>201712171329433_add_image.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Image\" />
     <Folder Include="Models\DAL\" />
   </ItemGroup>
   <ItemGroup>

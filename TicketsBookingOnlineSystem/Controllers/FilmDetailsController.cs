@@ -18,17 +18,17 @@ namespace TicketsBookingOnlineSystem.Controllers
         {
             CinemaDbContext db = new CinemaDbContext();
 
-            var entity = db.Films
+            var film = db.Films
                 .FirstOrDefault(x => x.Id == id);
-
-            
-            if(entity == null)
+         
+            if(film == null)
             {
                 //errorfilmu nie znaleziono
                 return View();
             }
 
-            var model = Mapper.Map<FilmDetailsViewModel>(entity);
+
+            var model = Mapper.Map<FilmDetailsViewModel>(film);
 
             return View(model);
         }

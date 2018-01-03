@@ -18,6 +18,7 @@ namespace TicketsBookingOnlineSystem
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
             AutoMapperConfig.Config();
+            DefaultModelBinder.ResourceClassKey = "Resource";
         }
     }
 }

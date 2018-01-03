@@ -3,15 +3,14 @@
 @{
     ViewBag.Title = "Edit";
 }
-
-<h2>Edit</h2>
+<br />
 
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
     
     <div class="form-horizontal">
-        <h4>Edycja</h4>
+        <h4>Edycja konta</h4>
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         <div class="form-group">
@@ -93,7 +92,3 @@
 
     </div>
 }
-
-<div>
-    @Html.ActionLink("Powrót", "Index")
-</div>

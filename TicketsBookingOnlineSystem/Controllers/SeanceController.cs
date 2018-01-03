@@ -15,7 +15,20 @@ namespace TicketsBookingOnlineSystem.Controllers
         // GET: Seance
         public ActionResult Index(int id)
         {
-            return View(id);
+            CinemaDbContext db = new CinemaDbContext();
+
+            var entity = db.Seances
+                .FirstOrDefault(x => x.Id == id);
+
+            if (entity == null)
+            {
+                //errorfilmu nie znaleziono
+                return View();
+            }
+
+            var model = Mapper.Map<SeanceViewModel>(entity);
+
+            return View(model);
         }
 
         //JsonResult

@@ -13,6 +13,8 @@ namespace TicketsBookingOnlineSystem.Controllers
 {
     public class AccountController : Controller
     {
+        CinemaDbContext db = new CinemaDbContext();
+
         public ActionResult Login()
         {
             return View();
@@ -27,7 +29,7 @@ namespace TicketsBookingOnlineSystem.Controllers
                 return View(model);
             }
 
-            using (CinemaDbContext db = new CinemaDbContext())
+            using (db)
             {
                 var v = db.Users.FirstOrDefault(a => a.Email == model.Email);
                 if (v == null)
@@ -37,19 +39,17 @@ namespace TicketsBookingOnlineSystem.Controllers
 
                 if (v.Password != model.Password)
                 {
-                    //kominikat o złym haśle
+                    //komunikat o złym haśle
                     return View(model);
                 }
-                //Session["LoggedUserID"] = v.Id;
-                // Session["LoggedUserEmail"] = v.Email.ToString();
 
                 List<Claim> claims = new List<Claim>
                     {
                         new Claim(ClaimTypes.Name, v.Email),
                         new Claim(ClaimTypes.NameIdentifier, v.Id.ToString()),
-                        new Claim(ClaimTypes.Role, "User"),
+                        new Claim(ClaimTypes.Role, v.Role.ToString()),
                         //new Claim("Avatar", user.Avatar)
-                    };
+            };
 
 
                 var identity = new ClaimsIdentity(claims, DefaultAuthenticationTypes.ApplicationCookie);
@@ -57,7 +57,7 @@ namespace TicketsBookingOnlineSystem.Controllers
                 Request.GetOwinContext().Authentication.SignIn(identity);
 
             }
-            return RedirectToAction("AfterLogin");
+            return RedirectToAction("Repertoire", "Repertoire");
         }
 
         [Authorize]
@@ -88,28 +88,18 @@ namespace TicketsBookingOnlineSystem.Controllers
         {
             if (!ModelState.IsValid)
             {
-                return View(model);
+                return View();
             }
+            
+            User user = new User();
 
-            CinemaDbContext db = new CinemaDbContext();
-
-            if(db.Users.Any(x => x.Email == model.Email))
-            {
-                ModelState.AddModelError(string.Empty, "komunikat ten email jest zajety.");
-
-                //komunikat ten email jest zajety
-                return View(model);
-            }
-
-
-            User entity = new User();
-
-            entity.Name = model.Name;
-            entity.Surname = model.Surname;
-            entity.Password = model.Password;
-            entity.BirthDate = model.BirthDate;
-            entity.Address = model.Address;
-            entity.Phone = model.Phone;
+            user.Name = model.Name;
+            user.Surname = model.Surname;
+            user.Password = model.Password;
+            user.BirthDate = model.BirthDate;
+            user.Address = model.Address;
+            user.Phone = model.Phone;
+            user.Email = model.Email;
 
             var city = db.Cities.FirstOrDefault(c => c.Name == model.City);
 
@@ -117,17 +107,22 @@ namespace TicketsBookingOnlineSystem.Controllers
             {
                 city = new City();
                 city.Name = model.City;
-                entity.City = city;
+                user.City = city;
                 db.Cities.Add(city);
             }
-            entity.Email = model.Email;
 
-            db.Users.Add(entity);
+            if (db.Users.Any(x => x.Email == model.Email))
+            {
+                ModelState.AddModelError(string.Empty, "Podany Email jest już zajety. Proszę wybrać inny.");
+
+                //komunikat ten email jest zajety
+                return View(model);
+            }
+
+            db.Users.Add(user);
             db.SaveChanges();
 
-            ViewBag.Message = "Udało się stworzyć konto";
-
-            //przekierowanie do lodowania
+            //przekierowanie do logowania
             return RedirectToAction("Login");
         }
 

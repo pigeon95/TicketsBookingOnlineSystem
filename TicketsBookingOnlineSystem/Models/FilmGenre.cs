@@ -13,5 +13,7 @@ namespace TicketsBookingOnlineSystem.Models
         public bool Deleted { get; set; }
 
         public virtual IList<Film> Films { get; set; }
+        public string FilmGenreId { get; internal set; }
+        public string Value { get; internal set; }
     }
 }

@@ -22,12 +22,10 @@ namespace TicketsBookingOnlineSystem.Controllers
 
             int userId = HttpContext.User.Identity.GetUserId<int>();
 
-            //var entity = db.Users.FirstOrDefault(UserViewEdit => UserViewEdit.Id == userId);
             var entity = db.Users
                 .AsQueryable()
                 .Include(u => u.City)
                 .FirstOrDefault(u => u.Id == userId);
-            //var user = new UserViewEdit();
 
             var model = Mapper.Map<UserEditViewModel>(entity);
 
@@ -46,12 +44,7 @@ namespace TicketsBookingOnlineSystem.Controllers
 
             CinemaDbContext db = new CinemaDbContext();
 
-            var sessionId = Session["LoggedUserID"];
-            if (sessionId == null)
-            {
-                return View("");
-            }
-            int userId = (int)sessionId;
+            int userId = HttpContext.User.Identity.GetUserId<int>();
 
             var entity = db.Users.FirstOrDefault(UserViewEdit => UserViewEdit.Id == userId);
 

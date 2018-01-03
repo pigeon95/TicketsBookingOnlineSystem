@@ -8,7 +8,7 @@
     @Scripts.Render("~/bundles/modernizr")
 
 </head>
-<body>
+<body style="background-color:whitesmoke">
     <div class="navbar navbar-inverse navbar-fixed-top">
         <div class="container">
             <div class="navbar-header">
@@ -17,36 +17,37 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                @Html.ActionLink("Kinopol", "Repertoire", "Repertoire", new { area = "" }, new { @class = "navbar-brand" })
+                @Html.ActionLink("Kino", "Repertoire", "Repertoire", new { area = "" }, new { @class = "navbar-brand" })
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
                     <li>@Html.ActionLink("Repertuar", "Repertoire", "Repertoire")</li>
                 </ul>
                 <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("Dramaty", "Repertoire", "Repertoire")</li>
+                    <li>@Html.ActionLink("Dramaty", "Drama", "FilmGenres")</li>
                 </ul>
                 <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("Komedie", "Repertoire", "Repertoire")</li>
+                    <li>@Html.ActionLink("Komedie", "Comedy", "FilmGenres")</li>
                 </ul>
                 <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("Horrory", "Repertoire", "Repertoire")</li>
+                    <li>@Html.ActionLink("Horrory", "Horror", "FilmGenres")</li>
                 </ul>
                 <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("Kino akcji", "Repertoire", "Repertoire")</li>
+                    <li>@Html.ActionLink("Kino akcji", "Action", "FilmGenres")</li>
                 </ul>
+                
                 @Html.Partial("_LoginPartial")
             </div>
-
         </div>
     </div>
+
     <div class="container body-content">
         @RenderBody()
         <hr />
         <br>
         <center>
             <footer>
-                <p>&copy; @DateTime.Now.Year - Powered by Gołąb development</p>
+                <p>&copy; @DateTime.Now.Year - Powered by Kacper Gołębiewski</p>
             </footer>
         </center>
     </div>
