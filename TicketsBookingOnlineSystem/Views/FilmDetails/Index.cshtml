@@ -7,62 +7,100 @@
 <br>
 <h2>@Html.DisplayFor(model => model.Title)</h2>
 <hr />
-<div>
-    @foreach (var item in Model.FilmImages)
-            {
-        <img src="@item.Alt" alt="Mountain View" width=300 height="300">
-    }
+
+
+<div class="container">
+    <div class="row justify-content-center" style="margin-left:15%">
+        <div class="col-sm-3">
+            <div><img src="@Url.Content(Model.Image)" width=300 height=300></div>
+        </div>
+        <div class="col-sm-7">
+            <dl class="dl-horizontal ">
+
+                <dt>
+                    Gatunek:
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.FilmGenreName)
+                </dd>
+
+                <dt>
+                    Czas trwania:
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.Duration)
+                </dd>
+
+                <dt>
+                    Reżyser:
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.CreatorName)
+                </dd>
+
+                <dt>
+                    Opis:
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.Description)
+                </dd>
+
+                <dt>
+                    Daty seansu:
+                </dt>
+
+                <dd>
+                    @foreach (var item in Model.Seances)
+                    {
+                        if (DateTime.Today.TimeOfDay < item.Date.TimeOfDay)
+                        {
+                            @Html.ActionLink(item.Date.ToString(), "choosenSeance", "Repertoire", new { id = item.Id }, new { data_modal = "" }) <br />
+                        }                    
+                    }
+
+                </dd>
+            </dl>
+        </div>
+    </div>
 </div>
-
-@*<div><img src="@Html.DisplayFor(model => model.Image)" width=300 height=300></div>*@
-
-<div><img src="@Url.Content(Model.Image)" width=300 height=300></div>
-
 <br>
-<dl class="dl-horizontal ">
-
-    <dt>
-        Gatunek:
-    </dt>
-
-    <dd>
-        @Html.DisplayFor(model => model.FilmGenreName)
-    </dd>
-
-    <dt>
-        Czas trwania:
-    </dt>
-
-    <dd>
-        @Html.DisplayFor(model => model.Duration)
-    </dd>
-
-    <dt>
-        Reżyser:
-    </dt>
-
-    <dd>
-        @Html.DisplayFor(model => model.CreatorName)
-    </dd>
-
-    <dt>
-        Opis:
-    </dt>
-
-    <dd>
-        @Html.DisplayFor(model => model.Description)
-    </dd>
-
-    <dt>
-        Daty seansu:
-    </dt>
-
-    <dd>
-        @foreach (var item in Model.Seances)
-            {
-            <div>@Html.DisplayFor(modelItem => item.Date)</div>
-        }
-    </dd>
-</dl>
 
 
+
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h5 class="modal-title">Seans</h5>
+            </div>
+            <div class="modal-body">
+                <div id='myModalContent'></div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-priamry" data-dismiss="modal">Zamknij</button>
+            </div>
+        </div>
+    </div>
+</div>
+@*Html.ActionLink(item.Title, "Index", "FilmDetails", new { id = item.Id }, new { })*@
+
+<script>
+    $(function () {
+        $.ajaxSetup({ cache: false });
+        $("a[data-modal]").on("click", function (e) {
+            $('#myModalContent').load(this.href, function () {
+                $('#myModal').modal({
+                    keyboard: true
+                }, 'show');
+            });
+            return false;
+        });
+    });
+</script>

@@ -31,7 +31,7 @@
             @Html.DisplayFor(modelItem => item.Surname)
         </td>
         <td>
-            @Html.ActionLink("Edytuj", "Edit", new { /* id=item.PrimaryKey */ }) |
+            @Html.ActionLink("Edytuj", "EditUser", new { id = item.Id }) |
             @Html.ActionLink("Szczegóły", "Details", new { /* id=item.PrimaryKey */ }) |
             @Html.ActionLink("Usuń", "Delete", new { /* id=item.PrimaryKey */ })
         </td>

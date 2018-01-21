@@ -5,10 +5,10 @@
 }
 
 <br />
-@using (Html.BeginForm()) 
+@using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
-    
+
     <div class="form-horizontal">
         <h4>Dodaj seans</h4>
         <hr />
@@ -71,6 +71,16 @@
     </div>
 
     @Html.ActionLink("Lista wszystkich seansów", "SeanceList", "Admin")
+
 }
 
-
+<script type="text/javascript">
+                $(function () {
+                    $('#Date').datetimepicker({
+                        locale: 'pl',
+                        date: new Date()
+                    }).on('dp.change', function (e) {
+                        $(this).data('DateTimePicker').hide();
+                    });
+                });
+</script>

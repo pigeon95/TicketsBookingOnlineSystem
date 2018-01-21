@@ -11,6 +11,7 @@ namespace TicketsBookingOnlineSystem.ViewModels
 {
     public class AddSeanceViewModel
     {
+        public int Id { get; set; }
         [DisplayName("Nazwa:")]
         [Required(ErrorMessage = "Proszę uzupełnić pole.", AllowEmptyStrings = false)]
         public string Name { get; set; }

@@ -10,7 +10,7 @@ namespace TicketsBookingOnlineSystem.ViewModels
 {
     public class AddFilmViewModel
     {
-        
+        public int Id { get; set; }
         [DisplayName("Tytuł:")]
         [Required(ErrorMessage = "Proszę podać tytuł filmu.", AllowEmptyStrings = false)]
         public string Title { get; set; }
@@ -21,7 +21,7 @@ namespace TicketsBookingOnlineSystem.ViewModels
         public TimeSpan Duration { get; set; }
         [DisplayName("Usunięty:")]
         public bool Deleted { get; set; }
-        public IList<string> FilmImages { get; set; }
+        //public IList<string> FilmImages { get; set; }
         [DisplayName("Reżyser:")]
         public int Creator { get; set; }
         public List<SelectListItem> Creators { get; set; }

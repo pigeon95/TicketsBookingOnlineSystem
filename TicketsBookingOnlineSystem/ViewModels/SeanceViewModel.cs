@@ -17,5 +17,6 @@ namespace TicketsBookingOnlineSystem.ViewModels
         public DateTime Date { get; set; }
         [DisplayName("Film")]
         public string FilmTitle { get; set; }
+        public string LocationArrangement { get; set; }
     }
 }

@@ -76,8 +76,8 @@ namespace TicketsBookingOnlineSystem.Controllers
 
             var model = Mapper.Map<SeanceViewModel>(entity);
 
-            return View(model);
-
+            //return View(model);
+            return PartialView(model);
         }
         
     }

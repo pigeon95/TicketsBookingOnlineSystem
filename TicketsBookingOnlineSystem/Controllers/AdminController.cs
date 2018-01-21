@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using TicketsBookingOnlineSystem.Context;
@@ -16,7 +17,8 @@ namespace TicketsBookingOnlineSystem.Controllers
     {
         CinemaDbContext db = new CinemaDbContext();
 
-        // GET: Admin
+        //FILMY
+        [Authorize(Roles = "Admin")]
         public ActionResult CreateFilm()
         {
             var model = new AddFilmViewModel
@@ -41,6 +43,7 @@ namespace TicketsBookingOnlineSystem.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public ActionResult CreateFilm(AddFilmViewModel model)
         {
             if (!ModelState.IsValid)
@@ -86,7 +89,6 @@ namespace TicketsBookingOnlineSystem.Controllers
 
                 ModelState.AddModelError(string.Empty, "Ten tytuł jest już używany dla innego filmu.");
 
-                //komunikat ten tytuł jest zajety
                 return View(model);
             }
 
@@ -113,68 +115,141 @@ namespace TicketsBookingOnlineSystem.Controllers
             db.Films.Add(film);
             db.SaveChanges();
 
-            ViewBag.Message = "Film dodano do bazy.";
-
-            //przekierowanie do lodowania
             ModelState.Clear();
-            return View("EditFilmTest");
+            return RedirectToAction("FilmList");
         }
 
-        public ActionResult EditFilm(int id)
+        [Authorize(Roles = "Admin")]
+        public ActionResult EditFilm(int? id)
         {
-            //var film = db.Films.FirstOrDefault(n => n.Id == id);
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
 
-            var film = db.Films.FirstOrDefault(u => u.Id == id);
+            var film = db.Films.Find(id);
 
-            //var model = new EditFilmViewModel
-            //{
-            //    FilmGenres = db.FilmGenres.Select(x =>
-            //            new SelectListItem
-            //            {
-            //                Text = x.Name,
-            //                Value = x.Id.ToString()
-            //            }).ToList(),
+            if (film == null)
+            {
+                return HttpNotFound();
+            }
+            else
+            {
+                var model = new AddFilmViewModel()
+                {
+                    Id = film.Id,
+                    Deleted = film.Deleted,
+                    Duration = film.Duration,
+                    Image = film.Image,
+                    Title = film.Title,
+                    Description = film.Description,
+                    Creator = film.Creator.Id,
+                    FilmGenre = film.FilmGenre.Id,
+                    FilmGenres = db.FilmGenres.Select(x =>
+                            new SelectListItem
+                            {
+                                Text = x.Name,
+                                Value = x.Id.ToString()
+                            }).ToList(),
 
-            //    Creators = db.Creators.Select(x =>
-            //            new SelectListItem
-            //            {
-            //                Text = x.Name,
-            //                Value = x.Id.ToString()
-            //            }).ToList(),
-            //};
+                    Creators = db.Creators.Select(x =>
+                            new SelectListItem
+                            {
+                                Text = x.Name,
+                                Value = x.Id.ToString()
+                            }).ToList(),
+                };
 
-
-            var model = Mapper.Map<EditFilmViewModel>(film);
-
-            return View(film);
+                return View(model);
+            }
         }
 
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public ActionResult EditFilm(AddFilmViewModel model)
-        //{
-        //    if (!ModelState.IsValid)
-        //    {
-        //        return View();
-        //    }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
+        public ActionResult EditFilm(AddFilmViewModel model)
+        {
+            //var film = db.Films.Find(id);
+            var film = db.Films.FirstOrDefault(x => x.Id == model.Id);
 
-        //    var film = db.Films.FirstOrDefault(AddFilmViewModel => AddFilmViewModel.Id == id);
+            if (!ModelState.IsValid)
+            {
+                model.FilmGenres = db.FilmGenres.Select(x =>
+                        new SelectListItem
+                        {
+                            Text = x.Name,
+                            Value = x.Id.ToString()
+                        }).ToList();
 
-        //    if (film != null)
-        //    {
-        //        var model = Mapper.Map<List<FilmViewModel>>(film);
+                model.Creators = db.Creators.Select(x =>
+                        new SelectListItem
+                        {
+                            Text = x.Name,
+                            Value = x.Id.ToString()
+                        }).ToList();
 
-        //        db.Films.Attach(film);
-        //        //var entry = db.Entry(film);
+                model.Image = film.Image;
 
-        //        //entry.Property(e => e.Title).IsModified = true;
+                return View(model);
+            }
 
-        //        db.SaveChanges();
-        //    }
+            if (db.Films.Any(x => x.Title == model.Title))
+            {
+                model.FilmGenres = db.FilmGenres.Select(x =>
+                        new SelectListItem
+                        {
+                            Text = x.Name,
+                            Value = x.Id.ToString()
+                        }).ToList();
 
-        //    return View("FilmList");
-        //}
+                model.Creators = db.Creators.Select(x =>
+                        new SelectListItem
+                        {
+                            Text = x.Name,
+                            Value = x.Id.ToString()
+                        }).ToList();
 
+                model.Image = film.Image;
+
+                ModelState.AddModelError(String.Empty, "Ten tytuł jest już w bazie.");
+
+                return View(model);
+            }
+
+            if (Request.Files.Count > 0)
+            {
+                var file = Request.Files[0];
+
+                if (file != null && file.ContentLength > 0)
+                {
+                    var fileName = Path.GetFileNameWithoutExtension(model.ImageFile.FileName);
+                    string extension = Path.GetExtension(model.ImageFile.FileName);
+                    fileName = fileName + DateTime.Now.ToString("yymmssfff") + extension;
+                    model.Image = "~/Content/img/" + fileName;
+                    fileName = Path.Combine(Server.MapPath("~/Content/img/"), fileName);
+                    model.ImageFile.SaveAs(fileName);
+
+                    film.Image = model.Image;
+                }
+            }
+
+            film.Deleted = model.Deleted;
+            film.Duration = model.Duration;
+            film.Title = model.Title;
+            film.Description = model.Description;
+            var filmGenre = db.FilmGenres.FirstOrDefault(c => c.Id == model.FilmGenre);
+            film.FilmGenre = filmGenre;
+            var creator = db.Creators.FirstOrDefault(c => c.Id == model.Creator);
+            film.Creator = creator;
+
+            db.Entry(film).State = EntityState.Modified;
+            db.SaveChanges();
+            ModelState.Clear();
+
+            return RedirectToAction("FilmList");
+        }
+
+        [Authorize(Roles = "Admin")]
         public ActionResult FilmList()
         {
             var films = db.Films.ToList();
@@ -184,32 +259,8 @@ namespace TicketsBookingOnlineSystem.Controllers
             return View(model);
         }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+        //SEANSE
+        [Authorize(Roles = "Admin")]
         public ActionResult CreateSeance()
         {
             var model = new AddSeanceViewModel
@@ -234,43 +285,180 @@ namespace TicketsBookingOnlineSystem.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public ActionResult CreateSeance(AddSeanceViewModel model)
         {
             if (!ModelState.IsValid)
             {
+                model = new AddSeanceViewModel
+                {
+                    Auditoriums = db.Auditoriums.Select(x =>
+                            new SelectListItem
+                            {
+                                Text = x.Name,
+                                Value = x.Id.ToString()
+                            }).ToList(),
+
+                    Films = db.Films.Select(x =>
+                            new SelectListItem
+                            {
+                                Text = x.Title,
+                                Value = x.Id.ToString()
+                            }).ToList()
+                };
+
                 return View(model);
             }
 
             if (db.Seances.Any(x => x.Name == model.Name))
             {
-                ModelState.AddModelError(string.Empty, "Ten tytuł jest już używany dla innego filmu.");
+                model = new AddSeanceViewModel
+                {
+                    Auditoriums = db.Auditoriums.Select(x =>
+                            new SelectListItem
+                            {
+                                Text = x.Name,
+                                Value = x.Id.ToString()
+                            }).ToList(),
+
+                    Films = db.Films.Select(x =>
+                            new SelectListItem
+                            {
+                                Text = x.Title,
+                                Value = x.Id.ToString()
+                            }).ToList()
+                };
+
+                ModelState.AddModelError(string.Empty, "Ten seans jest już używany dla innego filmu.");
 
                 //komunikat ten tytuł jest zajety
                 return View(model);
             }
 
-            Seance entity = new Seance();
+            Seance seance = new Seance();
 
-            entity.Name = model.Name;
-            entity.Price = model.Price;
-            entity.Deleted = model.Deleted;
-            entity.Date = model.Date;
+            seance.Name = model.Name;
+            seance.Price = model.Price;
+            seance.Deleted = model.Deleted;
+            seance.Date = model.Date;
 
             var film = db.Films.FirstOrDefault(c => c.Id == model.Film);
-            entity.Film = film;
+            seance.Film = film;
 
             var auditorium = db.Auditoriums.FirstOrDefault(c => c.Id == model.Auditorium);
-            entity.Auditorium = auditorium;
+            seance.Auditorium = auditorium;
 
-            db.Seances.Add(entity);
+            db.Seances.Add(seance);
             db.SaveChanges();
 
-            ViewBag.Message = "Seans dodano do bazy.";
-
-            //przekierowanie do lodowania
-            return View("EditSeance");
+            return RedirectToAction("SeanceList");
         }
 
+        [Authorize(Roles = "Admin")]
+        public ActionResult EditSeance(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            var seance = db.Seances.Find(id);
+
+            if (seance == null)
+            {
+                return HttpNotFound();
+            }
+            else
+            {
+                var model = new AddSeanceViewModel()
+                {
+                    Id = seance.Id,
+                    Name = seance.Name,
+                    Price = seance.Price,
+                    Date = seance.Date,
+                    Film = seance.Film.Id,
+                    Auditorium = seance.Auditorium.Id,
+                    Auditoriums = db.Auditoriums.Select(x =>
+                            new SelectListItem
+                            {
+                                Text = x.Name,
+                                Value = x.Id.ToString()
+                            }).ToList(),
+
+                    Films = db.Films.Select(x =>
+                            new SelectListItem
+                            {
+                                Text = x.Title,
+                                Value = x.Id.ToString()
+                            }).ToList()
+                };
+
+                return View(model);
+            }
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
+        public ActionResult EditSeance(AddSeanceViewModel model)
+        {
+            var seance = db.Seances.FirstOrDefault(x => x.Id == model.Id);
+
+            if (!ModelState.IsValid)
+            {
+                model.Auditoriums = db.Auditoriums.Select(x =>
+                           new SelectListItem
+                           {
+                               Text = x.Name,
+                               Value = x.Id.ToString()
+                           }).ToList();
+
+                model.Films = db.Films.Select(x =>
+                        new SelectListItem
+                        {
+                            Text = x.Title,
+                            Value = x.Id.ToString()
+                        }).ToList();
+
+                return View(model);
+            }
+
+            if (db.Seances.Any(x => x.Name == model.Name))
+            {
+                model.Auditoriums = db.Auditoriums.Select(x =>
+                           new SelectListItem
+                           {
+                               Text = x.Name,
+                               Value = x.Id.ToString()
+                           }).ToList();
+
+                model.Films = db.Films.Select(x =>
+                        new SelectListItem
+                        {
+                            Text = x.Title,
+                            Value = x.Id.ToString()
+                        }).ToList();
+
+                ModelState.AddModelError(String.Empty, "Ten seans jest już używany dla innego filmu.");
+
+                return View(model);
+            }
+
+            seance.Id = model.Id;
+            seance.Name = model.Name;
+            seance.Price = model.Price;
+            seance.Date = model.Date;
+            var auditorium = db.Auditoriums.FirstOrDefault(c => c.Id == model.Auditorium);
+            seance.Auditorium = auditorium;
+            var film = db.Films.FirstOrDefault(c => c.Id == model.Film);
+            seance.Film = film;
+
+            db.SaveChanges();
+
+            return RedirectToAction("SeanceList");
+        }
+
+        [Authorize(Roles = "Admin")]
         public ActionResult SeanceList()
         {
             var seances = db.Seances.ToList();
@@ -280,6 +468,182 @@ namespace TicketsBookingOnlineSystem.Controllers
             return View(model);
         }
 
+        //REZYSERZY
+        [Authorize(Roles = "Admin")]
+        public ActionResult CreateCreator()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
+        public ActionResult CreateCreator(AddCreatorViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+
+            if (db.Creators.Any(x => x.Name == model.Name))
+            {
+                ModelState.AddModelError(String.Empty, "Ta tożsamość jest już używana dla innego twórcy.");
+
+                return View(model);
+            }
+
+            Creator creator = new Creator();
+
+            creator.Id = model.Id;
+            creator.Name = model.Name;
+            creator.Description = model.Description;
+            creator.Deleted = model.Deleted;
+
+            db.Creators.Add(creator);
+            db.SaveChanges();
+
+            return RedirectToAction("CreatorList");
+        }
+
+        [Authorize(Roles = "Admin")]
+        public ActionResult EditCreator(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            var creator = db.Creators.Find(id);
+
+            if (creator == null)
+            {
+                return HttpNotFound();
+            }
+            else
+            {
+                var model = new AddCreatorViewModel()
+                {
+                    Id = creator.Id,
+                    Name = creator.Name,
+                    Description = creator.Description,
+                    Deleted = creator.Deleted,
+                };
+
+                return View(model);
+            }
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
+        public ActionResult EditCreator(AddCreatorViewModel model)
+        {
+            var creator = db.Creators.FirstOrDefault(x => x.Id == model.Id);
+
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+
+            if (db.Creators.Any(x => x.Name == model.Name))
+            {
+                ModelState.AddModelError(String.Empty, "Ta tożsamość jest już używana dla innego twórcy.");
+
+                return View(model);
+            }
+
+            creator.Id = model.Id;
+            creator.Name = model.Name;
+            creator.Description = model.Description;
+            creator.Deleted = model.Deleted;
+
+            db.SaveChanges();
+
+            return RedirectToAction("CreatorList");
+        }
+
+        [Authorize(Roles = "Admin")]
+        public ActionResult CreatorList()
+        {
+            var creators = db.Creators.ToList();
+
+            var model = Mapper.Map<List<AddCreatorViewModel>>(creators);
+
+            return View(model);
+        }
+
+
+        //UZYTKOWNICY
+        [Authorize(Roles = "Admin")]
+        public ActionResult EditUser(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            var user = db.Users.Find(id);
+
+            if (user == null)
+            {
+                return HttpNotFound();
+            }
+            else
+            {
+                var model = new UserEditViewModel()
+                {
+                    Id = user.Id,
+                    Name = user.Name,
+                    Surname = user.Surname,
+                    Password = user.Password,
+                    Address = user.Address,
+                    Phone = user.Phone,
+                    BirthDate = user.BirthDate,
+                    Email = user.Email,
+                    City = user.City.Name
+                };
+
+                return View(model);
+            }
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
+        public ActionResult EditUser(UserEditViewModel model)
+        {
+            var user = db.Users.FirstOrDefault(x => x.Id == model.Id);
+
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+
+            if (db.Users.Any(x => x.Email == model.Email))
+            {
+                ModelState.AddModelError(String.Empty, "Ten seans jest już używany dla innego filmu.");
+
+                return View(model);
+            }
+
+            user.Id = model.Id;
+            user.Name = model.Name;
+            user.Surname = model.Surname;
+            user.Password = model.Password;
+            user.Address = model.Address;
+            user.Phone = model.Phone;
+            user.BirthDate = model.BirthDate;
+            user.Email = model.Email;
+
+            var city = db.Cities.FirstOrDefault(c => c.Name == model.City);
+            user.City = city;
+
+            db.SaveChanges();
+
+            return RedirectToAction("Users");
+        }
+
+        [Authorize(Roles = "Admin")]
         public ActionResult Users()
         {
             var users = db.Users.ToList();
@@ -289,81 +653,12 @@ namespace TicketsBookingOnlineSystem.Controllers
             return View(model);
         }
 
-
-
-
-
-
-
-
-
-
-
-        public ActionResult CreateCreator()
+        [Authorize(Roles = "Admin")]
+        public ActionResult Test()
         {
-            var model = new AddFilmViewModel
-            {
-                FilmGenres = db.FilmGenres.Select(x =>
-                        new SelectListItem
-                        {
-                            Text = x.Name,
-                            Value = x.Id.ToString()
-                        }).ToList(),
-
-                Creators = db.Creators.Select(x =>
-                        new SelectListItem
-                        {
-                            Text = x.Name,
-                            Value = x.Id.ToString()
-                        }).ToList(),
-            };
-
-            return View(model);
+            return View();
         }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult CreateCreator(AddFilmViewModel model)
-        {
-            if (!ModelState.IsValid)
-            {
-                return View(model);
-            }
-
-            if (db.Films.Any(x => x.Title == model.Title))
-            {
-                ModelState.AddModelError(string.Empty, "Ten tytuł jest już używany dla innego filmu.");
-
-                //komunikat ten tytuł jest zajety
-                return View(model);
-            }
-
-            Film entity = new Film();
-
-            entity.Duration = model.Duration;
-            entity.Title = model.Title;
-            entity.Deleted = model.Deleted;
-
-            var filmGenre = db.FilmGenres.FirstOrDefault(c => c.Id == model.FilmGenre);
-            entity.FilmGenre = filmGenre;
-
-            //var filmCreator = new FilmCreator();
-            //filmCreator.Film = entity;
-            //filmCreator.Creator = db.Creators.FirstOrDefault(c => c.Id == model.Creator);
-
-            //var creator = filmCreator.Creator;
-
-            db.Films.Add(entity);
-            //creator.FilmCreators.Add(filmCreator);
-
-            db.SaveChanges();
-
-            ViewBag.Message = "Film dodano do bazy.";
-
-            //przekierowanie do lodowania
-            return View("EditFilm");
-        }
-
     }
-  
+
 }
+

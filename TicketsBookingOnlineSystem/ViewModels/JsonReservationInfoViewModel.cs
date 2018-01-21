@@ -7,7 +7,7 @@ namespace TicketsBookingOnlineSystem.ViewModels
 {
     public class JsonReservationInfoViewModel
     {
-        public int Spot { get; set; }
+        public int Col { get; set; }
         public int Row { get; set; }
     }
 }

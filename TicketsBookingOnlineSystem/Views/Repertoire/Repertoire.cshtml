@@ -11,6 +11,7 @@
         <li data-target="#myCarousel" data-slide-to="1"></li>
         <li data-target="#myCarousel" data-slide-to="2"></li>
         <li data-target="#myCarousel" data-slide-to="3"></li>
+        <li data-target="#myCarousel" data-slide-to="4"></li>
     </ol>
 
     <!-- Wrapper for slides -->
@@ -19,32 +20,40 @@
         <div class="item active">
             <img src="~/Content/img/carousel-logo.jpg" alt="item1" style="width: 100%;">
             <div class="carousel-caption">
-                <h3>Listy do M 3</h3>
-                <p>Przeżyj świąteczną przygodę razem z panem Karolakiem!</p>
+                <h3>Kill Bill</h3>
+                <p>Płatna zabójczyni zwana Czarną Mambą po czterech latach wybudza się ze śpiączki z zamiarem krwawej zemsty na ludziach, którzy próbowali ją zabić.</p>
             </div>
         </div>
 
         <div class="item">
             <img src="~/Content/img/carousel-logo.jpg" alt="item2" style="width: 100%;">
             <div class="carousel-caption">
-                <h3>Szybcy i wśiekli 999</h3>
-                <p>Leć w kosmos razem z Dominickiem i jego rodziną!</p>
+                <h3>Imperium kontratakuje</h3>
+                <p>Imperator rozkazuje swojemu uczniowi Darthowi Vaderowi odnalezienie Luke'a Skywalkera, by zmusić go do przejścia na ciemną stronę Mocy.!</p>
             </div>
         </div>
 
         <div class="item">
             <img src="~/Content/img/carousel-logo.jpg" alt="item3" style="width: 100%;">
             <div class="carousel-caption">
-                <h3>Rustom</h3>
-                <p>Nie oglądałem tego filmu, ale ty możesz!</p>
+                <h3>Igrzyska śmierci</h3>
+                <p>Katniss i Peeta odbywają obowiązkowe Tournée Zwycięzców. Dowiadują się o fali zamieszek, do za które są odpowiedzialni, łamiąc reguły igrzysk.</p>
             </div>
         </div>
 
         <div class="item">
             <img src="~/Content/img/carousel-logo.jpg" alt="item3" style="width: 100%;">
             <div class="carousel-caption">
-                <h3>Film4</h3>
-                <p>Nie oglądałem tego filmu, ale ty możesz!</p>
+                <h3>Powrót Jedi</h3>
+                <p>Luke Skywalker i księżniczka Leia wyruszają na ratunek porwanemu Hanowi Solo. Zbliża się ostateczna bitwa rebeliantów z Imperium.</p>
+            </div>
+        </div>
+
+        <div class="item">
+            <img src="~/Content/img/carousel-logo.jpg" alt="item3" style="width: 100%;">
+            <div class="carousel-caption">
+                <h3>Szczęki</h3>
+                <p>Luke Skywalker i księżniczka Leia wyruszają na ratunek porwanemu Hanowi Solo. Zbliża się ostateczna bitwa rebeliantów z Imperium.</p>
             </div>
         </div>
 
@@ -60,12 +69,25 @@
         <span class="sr-only">Next</span>
     </a>
 </div>
-<br><h2>Repertuar</h2><br>
-@foreach (var item in Model.DateMenu)
-{
-    @Html.ActionLink(item.Date.ToString("dd.MM.yyyy"), "Repertoire", "Repertoire", new { id = item.Date.ToString("dd-MM-yyyy")},  null) <t> &nbsp; &nbsp;</t>
-}
-<br><br>
+<br />
+<div class="link" style="font-size: 32px; margin-bottom: 1%;">
+    <div class="col-md-2 nopadding">
+        REPERTUAR
+    </div>
+    <div class="col-md-4">
+        <div class="row" style="font-size: 12px; text-align: left; padding-left: 18%; padding-top: 7%;">
+            <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
+            Kliknij na godzinę seansu, aby zarezerwować bilet.
+        </div>
+    </div>
+    <div class="col-md-6 nopadding" style="text-align: right">
+        @foreach (var item in Model.DateMenu)
+            {
+            @Html.ActionLink(item.Date.ToString("dd.MM"), "Repertoire", "Repertoire", new { id = item.Date.ToString("dd-MM-yyyy") }, new { @class = "btn btn-primary", @style = "font-size: 16px; color: whitesmoke; margin-left: 2%; margin-bottom:0.5%" })
+        }
+    </div>
+    <br>
+</div>
 <table class="table table-striped">
     <tr>
         <th>
@@ -86,7 +108,7 @@
     {
         <tr>
             <td>
-                @Html.ActionLink(item.Film.Title, "Index", "FilmDetails", new { id = item.Film.Id }, new { })
+                @Html.ActionLink(item.Film.Title, "Index", "FilmDetails", new { id = item.Film.Id }, new { @class="link"})
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Film.FilmGenreName)
@@ -97,13 +119,71 @@
             <td>
                 @foreach (var date in item.Seances)
                 {
-                    @Html.ActionLink(date.Date.ToString("HH:mm"), "choosenSeance", "Repertoire", new { id = date.Id}, null) <a>&nbsp;</a>
+                    if (DateTime.Now < date.Date)
+                    {
+                        @Html.ActionLink(date.Date.ToString("HH:mm"), "choosenSeance", "Repertoire", new { id = date.Id }, new { data_modal = "", @class = "link" }) <a>&nbsp;</a>
+                    }
+                    else
+                    {
+                        @date.Date.ToString("HH:mm")
+                    }
                 }
             </td>
         </tr>
     }
 
-</table>
 
+</table>
+@*<div id='myModal' class='modal fade in'>
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div id='myModalContent'></div>
+            </div>
+        </div>
+    </div>*@
+
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h5 class="modal-title">Seans</h5>
+            </div>
+            <div class="modal-body">
+                <div id='myModalContent'></div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-priamry" data-dismiss="modal">Zamknij</button>
+            </div>
+        </div>
+    </div>
+</div>
 @*Html.ActionLink(item.Title, "Index", "FilmDetails", new { id = item.Id }, new { })*@
 
+<script>
+    $(function () {
+        $.ajaxSetup({ cache: false });
+        $("a[data-modal]").on("click", function (e) {
+            $('#myModalContent').load(this.href, function () {
+                $('#myModal').modal({
+                    keyboard: true
+                }, 'show');
+            });
+            return false;
+        });
+    });
+</script>
+
+<style>
+    .nopadding {
+        padding: 0 !important;
+        margin: 0 !important;
+    }
+
+    .link {
+        color: #737373;
+        font-weight: bold;
+    }
+</style>

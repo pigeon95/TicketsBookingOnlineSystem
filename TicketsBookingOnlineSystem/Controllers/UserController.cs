@@ -15,19 +15,30 @@ namespace TicketsBookingOnlineSystem.Controllers
     [Authorize]
     public class UserController : Controller
     {
+        CinemaDbContext db = new CinemaDbContext();
         // GET: Edit
         public ActionResult Edit()
-        {
-            CinemaDbContext db = new CinemaDbContext();
-
+        {   
             int userId = HttpContext.User.Identity.GetUserId<int>();
 
-            var entity = db.Users
+            var user = db.Users
                 .AsQueryable()
                 .Include(u => u.City)
                 .FirstOrDefault(u => u.Id == userId);
 
-            var model = Mapper.Map<UserEditViewModel>(entity);
+            var model = new UserEditViewModel()
+            {
+                Name = user.Name,
+                Surname = user.Surname,
+                Password = user.Password,
+                Address = user.Address,
+                Phone = user.Phone,
+                BirthDate = user.BirthDate,
+                Email = user.Email,
+                City = user.City.Name
+            };
+
+            //var model = Mapper.Map<UserEditViewModel>(entity);
 
             return View(model);
         }
@@ -41,8 +52,6 @@ namespace TicketsBookingOnlineSystem.Controllers
             {
                 return View(user);
             }
-
-            CinemaDbContext db = new CinemaDbContext();
 
             int userId = HttpContext.User.Identity.GetUserId<int>();
 

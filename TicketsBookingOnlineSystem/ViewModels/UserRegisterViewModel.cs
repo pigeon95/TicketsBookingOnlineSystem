@@ -9,7 +9,8 @@ using TicketsBookingOnlineSystem.Models;
 namespace TicketsBookingOnlineSystem.ViewModels
 {
     public class UserRegisterViewModel
-    {
+    {   
+        public int Id { get; set; }
         [DisplayName("Imię")]
         [Required(ErrorMessage="Proszę podać swoje imię.", AllowEmptyStrings=false)]
         public string Name { get; set; }
@@ -28,6 +29,7 @@ namespace TicketsBookingOnlineSystem.ViewModels
         [DisplayName("Data urodzenia")]
         public DateTime? BirthDate { get; set; }
         [DisplayName("Miasto")]
+        [Required(ErrorMessage = "Proszę podać nazwę swojej miejscowości.", AllowEmptyStrings = false)]
         public string City { get; set; }
         public IEnumerable<string> Cities { get; set; }
         [System.Web.Mvc.Remote("IsUserExists", "Account", ErrorMessage = "Użytkownik o podanym emailu już istnieje, proszę wybrać inny.")]

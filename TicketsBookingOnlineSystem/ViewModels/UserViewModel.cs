@@ -8,6 +8,7 @@ namespace TicketsBookingOnlineSystem.ViewModels
 {
     public class UserViewModel
     {
+        public int Id { get; set; }
         [DisplayName("Imię")]
         public string Name { get; set; }
         [DisplayName("Nazwisko")]

@@ -14,7 +14,7 @@ namespace TicketsBookingOnlineSystem.Models
         public string Description { get; set; }
         public string Image { get; set; }
 
-        public virtual IList<FilmImage> FilmImages { get; set; }
+        //public virtual IList<FilmImage> FilmImages { get; set; }
         public virtual Creator Creator { get; set; }
         public virtual FilmGenre FilmGenre { get; set; }
         public virtual IList<Seance> Seances { get; set; }
