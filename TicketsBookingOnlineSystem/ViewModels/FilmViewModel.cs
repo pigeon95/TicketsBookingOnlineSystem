@@ -14,6 +14,7 @@ namespace TicketsBookingOnlineSystem.ViewModels
         [DisplayName("Gatunek")]
         public string FilmGenreName { get; set; }
         [DisplayName("Czas trwania")]
-        public TimeSpan Duration { get; set; }     
+        public TimeSpan Duration { get; set; }
+        public string Image { get; set; }
     }
 }

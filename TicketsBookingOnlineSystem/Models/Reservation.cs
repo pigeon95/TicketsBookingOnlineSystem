@@ -19,5 +19,6 @@ namespace TicketsBookingOnlineSystem.Models
         [ForeignKey("SeanceId")]
         public virtual Seance Seance { get; set; }
         public virtual IList<Spot> Spots { get; set; }
+        //public virtual IList<SpotReservations> SpotsReservations { get; set; }
     }
 }

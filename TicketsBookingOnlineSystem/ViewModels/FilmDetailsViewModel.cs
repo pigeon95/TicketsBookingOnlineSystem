@@ -9,7 +9,7 @@ namespace TicketsBookingOnlineSystem.ViewModels
     {
         public string CreatorName { get; set; }
         public string Description { get; set; }
-        public string Image { get; set; }
+        //public string Image { get; set; }
 
         //public List<FilmImageViewModel> FilmImages { get; set; }
         public List<SeanceViewModel> Seances { get; set; }

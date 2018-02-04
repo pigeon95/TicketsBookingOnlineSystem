@@ -12,22 +12,22 @@ namespace TicketsBookingOnlineSystem.ViewModels
     public class AddSeanceViewModel
     {
         public int Id { get; set; }
-        [DisplayName("Nazwa:")]
+        [DisplayName("Nazwa")]
         [Required(ErrorMessage = "Proszę uzupełnić pole.", AllowEmptyStrings = false)]
         public string Name { get; set; }
-        [DisplayName("Cena:")]
+        [DisplayName("Cena")]
         [Required(ErrorMessage = "Proszę uzupełnić pole.", AllowEmptyStrings = false)]
         public decimal Price { get; set; }
-        [DisplayName("Data seansu:")]
+        [DisplayName("Data seansu")]
         [Required(ErrorMessage = "Proszę uzupełnić pole.", AllowEmptyStrings = false)]
         public DateTime Date { get; set; }
         public List<SelectListItem> Auditoriums { get; set; }
-        [DisplayName("Nazwa sali:")]
+        [DisplayName("Nazwa sali")]
         public int Auditorium { get; set; }
         public List<SelectListItem> Films { get; set; }
-        [DisplayName("Film:")]
+        [DisplayName("Film")]
         public int Film { get; set; }
-        [DisplayName("Usunięty:")]
+        [DisplayName("Usunięty")]
         public bool Deleted { get; set; }
     }
 }

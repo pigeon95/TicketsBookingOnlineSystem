@@ -4,37 +4,51 @@
     ViewBag.Title = "Drama";
 }
 
-<h2>Dramaty</h2>
+<!-- Website Font style -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css">
 
-<table class="table">
-    <tr>
-        <th>           
-            @Html.DisplayNameFor(model => model.Title)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.FilmGenreName)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Duration)      
-        </th>
-        <th></th>
-    </tr>
+<!-- Google Fonts -->
+<link href='https://fonts.googleapis.com/css?family=Passion+One' rel='stylesheet' type='text/css'>
+<link href='https://fonts.googleapis.com/css?family=Oxygen' rel='stylesheet' type='text/css'>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>           
-            @Html.DisplayFor(modelItem => item.Title)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.FilmGenreName)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Duration)
-        </td>
-        <td>
-            @Html.ActionLink("Szczegóły", "Details", new { id=item.Id }) 
-        </td>
-    </tr>
-}
+<link href='https://netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.css' rel='stylesheet' type='text/css'>
 
-</table>
+<br>
+<div class="container">
+    <div class="row">
+        <section class="content">
+            <div class="col-md-8 col-md-offset-2">
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <div class="table-container">
+                            <table class="table table-filter">
+                                <tbody>
+                                    @foreach (var item in Model)
+                                    {
+                                        <tr data-status="pagado">
+                                            <td>
+                                                <div class="media">
+                                                    <a href="#" class="pull-left">
+                                                        <img src="~/Content/img/film-genre-img/drama.svg.png" class="media-photo">
+                                                    </a>
+                                                    <div class="media-body">
+                                                        <span class="media-meta pull-right">Czas trwania: @Html.DisplayFor(modelItem => item.Duration)</span>
+                                                        <h4 class="title">
+                                                            @Html.DisplayFor(modelItem => item.Title)
+                                                            <span class="pull-right cancelado">Dramat</span>
+                                                        </h4>
+                                                        <p class="summary">@Html.ActionLink("Szczegóły", "Index", "FilmDetails", new { id = item.Id }, new { @class = "link"})</p>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+</div>

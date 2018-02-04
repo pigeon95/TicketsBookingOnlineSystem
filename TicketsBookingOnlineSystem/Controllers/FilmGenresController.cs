@@ -15,7 +15,7 @@ namespace TicketsBookingOnlineSystem.Controllers
         // GET: FilmGenres
         public ActionResult Drama()
         {
-            var films = db.Films.Where(x => x.FilmGenre.Id == 3).ToList();
+            var films = db.Films.Where(x => x.FilmGenre.Id == 2).ToList();
 
             var model = Mapper.Map<List<FilmViewModel>>(films);
 
@@ -24,7 +24,7 @@ namespace TicketsBookingOnlineSystem.Controllers
 
         public ActionResult Comedy()
         {
-            var films = db.Films.Where(x => x.FilmGenre.Id == 4).ToList();
+            var films = db.Films.Where(x => x.FilmGenre.Id == 3).ToList();
 
             var model = Mapper.Map<List<FilmViewModel>>(films);
 
@@ -33,7 +33,7 @@ namespace TicketsBookingOnlineSystem.Controllers
 
         public ActionResult Horror()
         {
-            var films = db.Films.Where(x => x.FilmGenre.Id == 6).ToList();
+            var films = db.Films.Where(x => x.FilmGenre.Id == 4).ToList();
 
             var model = Mapper.Map<List<FilmViewModel>>(films);
 
@@ -42,7 +42,7 @@ namespace TicketsBookingOnlineSystem.Controllers
 
         public ActionResult Action()
         {
-            var films = db.Films.Where(x => x.FilmGenre.Id == 7).ToList();
+            var films = db.Films.Where(x => x.FilmGenre.Id == 5).ToList();
 
             var model = Mapper.Map<List<FilmViewModel>>(films);
 

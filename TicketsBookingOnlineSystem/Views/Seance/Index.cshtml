@@ -1,16 +1,29 @@
-﻿@model TicketsBookingOnlineSystem.ViewModels.SeanceViewModel
+﻿@using TicketsBookingOnlineSystem.ViewModels
+@model TicketsBookingOnlineSystem.ViewModels.SeanceViewModel
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Test";
 }
 
 @Scripts.Render("~/bundles/jquery")
-
-<center><h2>Rezerwacja</h2></center>
-<br>
+<script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
+<br />
+<div class="row text-center" style="font-size: 16px; font-weight: bold;">
+    <div class="col-md-4">
+        @Model.Date.ToString("dd.MM.yyyy, HH:mm")
+    </div>
+    <div class="col-md-4">
+        @Html.DisplayFor(model => model.FilmTitle)
+    </div>
+    <div class="col-md-4">
+        @Html.DisplayFor(model => model.Price) zł
+    </div>
+</div>
+<hr />
+<center><h4>Sala @Html.DisplayFor(model => model.AuditoriumName)</h4></center>
 
 <div>
     <center>
-        @*<object id="mainSVG" data='~/AuditoriumPlan/@Model.LocationArrangement' type='image/svg+xml'/>*@ 
+        @*<object id="mainSVG" data='~/AuditoriumPlan/@Model.LocationArrangement' type='image/svg+xml'/>*@
         <svg xmlns:osb="http://www.openswatchbook.org/uri/2009/osb" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:svg="http://www.w3.org/2000/svg" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd" xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape" width="154.36525mm" height="81.632324mm" viewBox="0 0 154.36525 81.632324" version="1.1" id="svg8" sodipodi:docname="auditoriumPlan.svg" inkscape:version="0.92.2 (5c3e80d, 2017-08-06)">
             <defs id="defs2">
                 <linearGradient id="linearGradient6535" osb:paint="solid">
@@ -22,17 +35,17 @@
                 </linearGradient>
             </defs>
             @*<sodipodi:namedview id="base" pagecolor="#ffffff" bordercolor="#666666" borderopacity="1.0" inkscape:pageopacity="0.0" inkscape:pageshadow="2" inkscape:zoom="1.2864573" inkscape:cx="492.30105" inkscape:cy="78.152883" inkscape:document-units="mm" inkscape:current-layer="layer1" showgrid="false" inkscape:snap-grids="false" inkscape:window-width="1920" inkscape:window-height="1017" inkscape:window-x="1912" inkscape:window-y="-8" inkscape:window-maximized="1" showguides="false">
-                <inkscape:grid type="xygrid" id="grid9715" originx="-23.881173" originy="-207.33551" />
-            </sodipodi:namedview>*@
+                    <inkscape:grid type="xygrid" id="grid9715" originx="-23.881173" originy="-207.33551" />
+                </sodipodi:namedview>*@
             @*<metadata id="metadata5">
-                <rdf:RDF>
-                    <cc:Work rdf:about="">
-                        <dc:format>image/svg+xml</dc:format>
-                        <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-                        <dc:title />
-                    </cc:Work>
-                </rdf:RDF>
-            </metadata>*@
+                    <rdf:RDF>
+                        <cc:Work rdf:about="">
+                            <dc:format>image/svg+xml</dc:format>
+                            <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+                            <dc:title />
+                        </cc:Work>
+                    </rdf:RDF>
+                </metadata>*@
             <g inkscape:label="Layer 1" inkscape:groupmode="layer" id="layer1" transform="translate(-23.881174,-8.0321694)">
                 <rect class="seat" style=" stroke:#000000;stroke-width:0.25700891;stroke-opacity:1; id="c_7_11" width="9.3308802" height="9.8889723" x="122.81507" y="79.647018" inkscape:label="#rect3709-5-77-4" />
                 <rect class="seat" style=" stroke:#000000;stroke-width:0.25700891;stroke-opacity:1" id="c_7_12" width="9.3308802" height="9.8889723" x="132.14597" y="79.647018" inkscape:label="#rect3709-5-77-8" />
@@ -215,9 +228,9 @@
             </g>
         </svg>
     </center>
-    </div>
+</div>
 <br /><br />
-    <div>   
+<div>
     <center><b>LEGENDA</b></center><span id="kutas"></span>
     <br />
     <center>
@@ -226,13 +239,13 @@
                 <a href="#" class="btn btn-sq-xs btn-primary">
                     <i class="fa fa-user fa-1x"></i><br />
                 </a>
-                Miejsce wolne
+                Miejsca wolne
             </div>
             <div class="col-md-4">
                 <a href="#" class="btn btn-sq-xs btn-danger">
                     <i class="fa fa-user fa-1x"></i><br />
                 </a>
-                Miejsce zajęte
+                Miejsca zajęte
             </div>
             <div class="col-md-4">
                 <a href="#" class="btn btn-sq-xs btn-success">
@@ -243,19 +256,51 @@
         </div>
         <hr />
         <div class="row text-right">
-        @using (Html.BeginForm("Index", "Seance", FormMethod.Post))
-        {
-            @Html.Hidden("SeanceId", @Model.Id);
-            @Html.Hidden("Spots", "");
+            @using (Ajax.BeginForm("Index", "Seance", new AjaxOptions { HttpMethod = "POST", OnSuccess = "Showmessage" }))
+            {
+                @Html.Hidden("SeanceId", @Model.Id);
+                @Html.Hidden("Spots", "");
 
-            <div class="form-group">
-                <div class="col-md-offset-2 col-md-10">
-                    <input type="submit" value="Rezerwuj" class="btn btn-primary" />
+                <div class="col-md-2" style="font-size: 16px; margin-top: 0.5%;">
+                    Typ biletu:
                 </div>
-            </div>
-        }          
+                <div class="col-md-2">
+                    <select class="form-control" name="StudentGender">
+                        <option>Normalny</option>
+                        <option>Ulogwy</option>
+                    </select>
+                </div>
+                <div class="col-md-5 text-left" style="font-size: 11px; margin-top: 0.5%;">
+                    <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
+                    Przy wyborze biletu ulgowego, za okazaniem legitymacji studenckiej/szkolnej pracownikowi kina, cena biletu na seans niższa o 20%.
+                </div>
+                    <div class="form-group">
+                        <div class="col-md-3">
+                            <input type="submit" value="Rezerwuj" class="btn btn-primary" />
+                        </div>
+                    </div>
+            }
         </div>
     </center>
+</div>
+
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h5 class="modal-title"></h5>
+            </div>
+            <div class="modal-body">
+                <center><div id="notID"></div></center>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-priamry" data-dismiss="modal">Zamknij</button>
+            </div>
+        </div>
+    </div>
 </div>
 
 <style>
@@ -280,10 +325,7 @@
         height: 25px !important;
         padding: 2px;
     }
-
 </style>
-
-
 
 <script>
     var selectedSeats = {};
@@ -317,6 +359,14 @@
             });
         });
     });
+
+    function Showmessage(data) {
+        $('#notID').html(data.message);
+        $('#myModal').modal({
+            keyboard: true
+        }, 'show');
+        return false;
+    }
 </script>
 
 

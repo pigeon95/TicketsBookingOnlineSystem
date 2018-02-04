@@ -13,12 +13,12 @@ using TicketsBookingOnlineSystem.ViewModels;
 
 namespace TicketsBookingOnlineSystem.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class AdminController : Controller
     {
         CinemaDbContext db = new CinemaDbContext();
 
         //FILMY
-        [Authorize(Roles = "Admin")]
         public ActionResult CreateFilm()
         {
             var model = new AddFilmViewModel
@@ -43,7 +43,6 @@ namespace TicketsBookingOnlineSystem.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = "Admin")]
         public ActionResult CreateFilm(AddFilmViewModel model)
         {
             if (!ModelState.IsValid)
@@ -119,7 +118,7 @@ namespace TicketsBookingOnlineSystem.Controllers
             return RedirectToAction("FilmList");
         }
 
-        [Authorize(Roles = "Admin")]
+
         public ActionResult EditFilm(int? id)
         {
             if (id == null)
@@ -166,7 +165,6 @@ namespace TicketsBookingOnlineSystem.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = "Admin")]
         public ActionResult EditFilm(AddFilmViewModel model)
         {
             //var film = db.Films.Find(id);
@@ -249,18 +247,35 @@ namespace TicketsBookingOnlineSystem.Controllers
             return RedirectToAction("FilmList");
         }
 
-        [Authorize(Roles = "Admin")]
+        [HttpPost, ActionName("DeleteFilm")]
+        public ActionResult DeleteFilmConfirmed(int id)
+        {
+            var film = db.Films.Find(id);
+
+            var seances = db.Seances.Where(s => s.Film.Id == film.Id).ToList();
+
+            foreach (var seance in seances)
+            {
+                db.Seances.Remove(seance);
+            }
+
+            db.Films.Remove(film);
+            db.SaveChanges();
+            return RedirectToAction("FilmList");
+        }
+
         public ActionResult FilmList()
         {
             var films = db.Films.ToList();
 
             var model = Mapper.Map<List<FilmViewModel>>(films);
 
+
             return View(model);
         }
 
         //SEANSE
-        [Authorize(Roles = "Admin")]
+
         public ActionResult CreateSeance()
         {
             var model = new AddSeanceViewModel
@@ -285,7 +300,6 @@ namespace TicketsBookingOnlineSystem.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = "Admin")]
         public ActionResult CreateSeance(AddSeanceViewModel model)
         {
             if (!ModelState.IsValid)
@@ -354,7 +368,7 @@ namespace TicketsBookingOnlineSystem.Controllers
             return RedirectToAction("SeanceList");
         }
 
-        [Authorize(Roles = "Admin")]
+
         public ActionResult EditSeance(int? id)
         {
             if (id == null)
@@ -399,7 +413,6 @@ namespace TicketsBookingOnlineSystem.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = "Admin")]
         public ActionResult EditSeance(AddSeanceViewModel model)
         {
             var seance = db.Seances.FirstOrDefault(x => x.Id == model.Id);
@@ -458,7 +471,7 @@ namespace TicketsBookingOnlineSystem.Controllers
             return RedirectToAction("SeanceList");
         }
 
-        [Authorize(Roles = "Admin")]
+
         public ActionResult SeanceList()
         {
             var seances = db.Seances.ToList();
@@ -468,8 +481,16 @@ namespace TicketsBookingOnlineSystem.Controllers
             return View(model);
         }
 
+        [HttpPost, ActionName("DeleteSeance")]
+        public ActionResult DeleteSeanceConfirmed(int id)
+        {
+            var seance = db.Seances.Find(id);
+            db.Seances.Remove(seance);
+            db.SaveChanges();
+            return RedirectToAction("SeanceList");
+        }
+
         //REZYSERZY
-        [Authorize(Roles = "Admin")]
         public ActionResult CreateCreator()
         {
             return View();
@@ -477,7 +498,6 @@ namespace TicketsBookingOnlineSystem.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = "Admin")]
         public ActionResult CreateCreator(AddCreatorViewModel model)
         {
             if (!ModelState.IsValid)
@@ -505,7 +525,6 @@ namespace TicketsBookingOnlineSystem.Controllers
             return RedirectToAction("CreatorList");
         }
 
-        [Authorize(Roles = "Admin")]
         public ActionResult EditCreator(int? id)
         {
             if (id == null)
@@ -535,7 +554,6 @@ namespace TicketsBookingOnlineSystem.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = "Admin")]
         public ActionResult EditCreator(AddCreatorViewModel model)
         {
             var creator = db.Creators.FirstOrDefault(x => x.Id == model.Id);
@@ -562,7 +580,6 @@ namespace TicketsBookingOnlineSystem.Controllers
             return RedirectToAction("CreatorList");
         }
 
-        [Authorize(Roles = "Admin")]
         public ActionResult CreatorList()
         {
             var creators = db.Creators.ToList();
@@ -572,9 +589,26 @@ namespace TicketsBookingOnlineSystem.Controllers
             return View(model);
         }
 
+        [HttpPost, ActionName("DeleteCreator")]
+        public ActionResult DeleteCreatorConfirmed(int id)
+        {
+            var creator = db.Creators.Find(id);
+
+            var films = db.Films.Where(s => s.Creator.Id == creator.Id).ToList();
+
+            foreach (var film in films)
+            {
+                var seances = db.Seances.Where(f => f.Film.Id == film.Id).ToList();
+                db.Seances.RemoveRange(seances);
+            }
+
+            db.Films.RemoveRange(films);
+            db.Creators.Remove(creator);
+            db.SaveChanges();
+            return RedirectToAction("CreatorList");
+        }
 
         //UZYTKOWNICY
-        [Authorize(Roles = "Admin")]
         public ActionResult EditUser(int? id)
         {
             if (id == null)
@@ -595,7 +629,6 @@ namespace TicketsBookingOnlineSystem.Controllers
                     Id = user.Id,
                     Name = user.Name,
                     Surname = user.Surname,
-                    Password = user.Password,
                     Address = user.Address,
                     Phone = user.Phone,
                     BirthDate = user.BirthDate,
@@ -609,7 +642,6 @@ namespace TicketsBookingOnlineSystem.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = "Admin")]
         public ActionResult EditUser(UserEditViewModel model)
         {
             var user = db.Users.FirstOrDefault(x => x.Id == model.Id);
@@ -629,13 +661,20 @@ namespace TicketsBookingOnlineSystem.Controllers
             user.Id = model.Id;
             user.Name = model.Name;
             user.Surname = model.Surname;
-            user.Password = model.Password;
             user.Address = model.Address;
             user.Phone = model.Phone;
             user.BirthDate = model.BirthDate;
             user.Email = model.Email;
 
             var city = db.Cities.FirstOrDefault(c => c.Name == model.City);
+
+            if (city == null)
+            {
+                city = new City();
+                city.Name = model.City;
+                user.City = city;
+                db.Cities.Add(city);
+            }
             user.City = city;
 
             db.SaveChanges();
@@ -643,7 +682,6 @@ namespace TicketsBookingOnlineSystem.Controllers
             return RedirectToAction("Users");
         }
 
-        [Authorize(Roles = "Admin")]
         public ActionResult Users()
         {
             var users = db.Users.ToList();
@@ -653,11 +691,15 @@ namespace TicketsBookingOnlineSystem.Controllers
             return View(model);
         }
 
-        [Authorize(Roles = "Admin")]
-        public ActionResult Test()
+        [HttpPost, ActionName("DeleteUser")]
+        public ActionResult DeleteUserConfirmed(int id)
         {
-            return View();
+            var user = db.Users.Find(id);
+            db.Users.Remove(user);
+            db.SaveChanges();
+            return RedirectToAction("Users");
         }
+
     }
 
 }

@@ -18,24 +18,24 @@
                         </div>
                         <div class="col col-xs-4">
                             @*@using (Html.BeginForm())
-                            {
-                                <div id="imaginary_container">
-                                    <div class="input-group stylish-input-group">
-                                        @Html.TextBox("SearchString", null, new { @class = "form-control", @placeholder = "Wyszukaj..." })
-                                        <input type="submit" value="Search" />
-                                        <span class="input-group-addon">
-                                            <button type="submit">
-                                                <span class="glyphicon glyphicon-search"></span>
-                                            </button>
-                                        </span>
+                                {
+                                    <div id="imaginary_container">
+                                        <div class="input-group stylish-input-group">
+                                            @Html.TextBox("SearchString", null, new { @class = "form-control", @placeholder = "Wyszukaj..." })
+                                            <input type="submit" value="Search" />
+                                            <span class="input-group-addon">
+                                                <button type="submit">
+                                                    <span class="glyphicon glyphicon-search"></span>
+                                                </button>
+                                            </span>
+                                        </div>
                                     </div>
-                                </div>
-                            }*@
+                                }*@
                         </div>
-                    
+
                         <div class="col col-xs-2 text-right">
                             @Html.ActionLink("Dodaj film", "CreateFilm", "Admin", new { @class = "btn btn-primary btn-create" })
-                        </div>                 
+                        </div>
                     </div>
                 </div>
                 <div class="panel-body">
@@ -66,15 +66,21 @@
                                         @Html.DisplayFor(modelItem => item.Duration)
                                     </td>
                                     <td align="center">
-                                        <a href="@Url.Action("EditFilm", new { id = item.Id })" class="btn btn-primary">
-                                            <em class="fa fa-pencil"></em>
-                                        </a>
-                                        <a class="btn btn-danger"><em class="fa fa-trash"></em></a>
+                                        @using (Html.BeginForm("DeleteFilm", "Admin", new { id = item.Id }))
+                                        {
+                                            <a href="@Url.Action("EditFilm", new { id = item.Id })" class="btn btn-primary">
+                                                <em class="fa fa-pencil"></em>
+                                            </a>
+
+                                            <button type="submit" value="DeleteFilm" class="btn btn-danger" onclick="return confirm('Czy na pewno chcesz usunąć film @item.Title. Spowoduje to usunięcie wszystkich seansów, które są do niego przypisane.')">
+                                                <em class="fa fa-trash"></em>
+                                            </button>
+                                        }
                                     </td>
 
                                 </tr>
                             </tbody>
-                        }
+                           }
                     </table>
                 </div>
                 <div class="panel-footer">
@@ -121,3 +127,7 @@
         background: transparent;
     }
 </style>
+
+
+
+

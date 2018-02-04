@@ -11,26 +11,26 @@ namespace TicketsBookingOnlineSystem.ViewModels
     public class AddFilmViewModel
     {
         public int Id { get; set; }
-        [DisplayName("Tytuł:")]
+        [DisplayName("Tytuł")]
         [Required(ErrorMessage = "Proszę podać tytuł filmu.", AllowEmptyStrings = false)]
         public string Title { get; set; }
         //[Required(ErrorMessage = "Proszę podać gatunek filmowy.", AllowEmptyStrings = false)]
-        [DisplayName("Czas trwania:")]
+        [DisplayName("Czas trwania")]
         [RegularExpression(@"^(?:(?:([01]?\d|2[0-3]):)?([0-5]?\d):)?([0-5]?\d)$", ErrorMessage = "Nieprawidłowy format czasu")]
         [Required(ErrorMessage = "Proszę podać czas trwania filmu.", AllowEmptyStrings = false)]
         public TimeSpan Duration { get; set; }
-        [DisplayName("Usunięty:")]
+        [DisplayName("Usunięty")]
         public bool Deleted { get; set; }
         //public IList<string> FilmImages { get; set; }
-        [DisplayName("Reżyser:")]
+        [DisplayName("Reżyser")]
         public int Creator { get; set; }
         public List<SelectListItem> Creators { get; set; }
-        [DisplayName("Gatunek:")]
+        [DisplayName("Gatunek")]
         public int FilmGenre { get; set; }
         public List<SelectListItem> FilmGenres { get; set; }
-        [DisplayName("Opis:")]
+        [DisplayName("Opis")]
         public string Description { get; set; }
-        [DisplayName("Grafika:")]
+        [DisplayName("Grafika")]
         public string Image { get; set; }
         public HttpPostedFileBase ImageFile { get; set; }
     }

@@ -4,47 +4,122 @@
     ViewBag.Title = "Login";
 }
 
-<h2>Logowanie</h2>
+<!-- Website Font style -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css">
 
-@using (Html.BeginForm("Login", "Account", FormMethod.Post))
-{
-    @Html.AntiForgeryToken()
+<!-- Google Fonts -->
+<link href='https://fonts.googleapis.com/css?family=Passion+One' rel='stylesheet' type='text/css'>
+<link href='https://fonts.googleapis.com/css?family=Oxygen' rel='stylesheet' type='text/css'>
 
-    <div class="form-horizontal">
-        <hr />
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        <div class="form-group">
-            @Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+
+<div class="container">
+    <div class="row main">
+        <div class="panel-heading">
+            <div class="panel-title text-center">
+                <h1 class="title">Logowanie</h1>
+                <hr />
             </div>
         </div>
+        <div class="main-login main-center">
+            @using (Html.BeginForm("Login", "Account", FormMethod.Post))
+            {
+                @Html.AntiForgeryToken()
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.Password, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "form-control", @type = "password" } })
-                @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
-            </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "cols-sm-2 control-label" })
+                    <div class="cols-sm-10">
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="fa fa-envelope fa" aria-hidden="true"></i></span>
+                            @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control", @placeholder = "Podaj swój Email" } })
+                        </div>
+                        @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Password, htmlAttributes: new { @class = "cols-sm-2 control-label" })
+                    <div class="cols-sm-10">
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="fa fa-lock fa" aria-hidden="true"></i></span>
+                            @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "form-control", @placeholder = "Podaj swoje hasło", @type = "password" } })
+                        </div>
+                        @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                    <div class="form-group ">
+                        <input type="submit" value="Zaloguj" class="btn btn-primary btn-lg btn-block login-button" />
+                    </div>
+                    <div class="login-register">
+                        @Html.ActionLink("Nie pamiętam hasła", "ForgotPassword").
+                    </div>
+                    <div class="login-register">
+                        Nie masz konta? @Html.ActionLink("Zarejestruj się", "Register").
+                    </div>
+                    <br />
+                    <span class="help-block">
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    </span>             
+            }
         </div>
-
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Zaloguj" class="btn btn-default" />
-            </div>
-        </div>
-
-        @if (ViewBag.Message != null)
-        {
-            @ViewBag.Message
-        }
-
-        <div>Nie masz konta? @Html.ActionLink("Zarejestruj się", "Register").</div>
     </div>
+</div>
 
+<style>
+    .help-block ul {
+        list-style-type: none;
+    }
 
-}
+    h1.title {
+        font-size: 50px;
+        font-family: 'Passion One', cursive;
+        font-weight: 400;
+    }
+
+    hr {
+        width: 10%;
+        color: #fff;
+    }
+
+    .form-group {
+        margin-bottom: 15px;
+    }
+
+    input,
+    input::-webkit-input-placeholder {
+        font-size: 11px;
+        padding-top: 3px;
+    }
+
+    .main-login {
+        background-color: #fff;
+        /* shadows and rounded borders */
+        -moz-border-radius: 2px;
+        -webkit-border-radius: 2px;
+        border-radius: 2px;
+        -moz-box-shadow: 1px 1px 1px 0px rgba(0, 0, 0, 0.3);
+        -webkit-box-shadow: 1px 1px 1px 0px rgba(0, 0, 0, 0.3);
+        box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 0.3);
+    }
+
+    .main-center {
+        margin-top: 30px;
+        margin: 0 auto;
+        max-width: 330px;
+        padding: 40px 40px;
+    }
+
+    .login-button {
+        margin-top: 5px;
+    }
+
+    .login-register {
+        font-size: 11px;
+        text-align: center;
+    }
+</style>
 @section Scripts{
     @Scripts.Render("~/bundles/jqueryval")
 }
+
+
+

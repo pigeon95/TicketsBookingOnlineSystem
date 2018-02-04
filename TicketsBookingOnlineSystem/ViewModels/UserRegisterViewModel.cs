@@ -24,15 +24,20 @@ namespace TicketsBookingOnlineSystem.ViewModels
         [DisplayName("Powtórz hasło")]
         [Compare("Password", ErrorMessage = "Podane hasło się nie zgadza.")]
         public string ConfirmPassword { get; set; }
+        [DisplayName("Adres")]
         public string Address { get; set; }
+        [DisplayName("Telefon")]
         public string Phone { get; set; }
         [DisplayName("Data urodzenia")]
+        //[DataType(DataType.Date), DisplayFormat(DataFormatString = "{0:dd.MM.yy}", ApplyFormatInEditMode = true)]
+        //[DisplayFormat(DataFormatString = "{0:dd.MM.yy}", ApplyFormatInEditMode = true)]
+        [Required(ErrorMessage = "Proszę uzupełnić pole.", AllowEmptyStrings = false)]
         public DateTime? BirthDate { get; set; }
         [DisplayName("Miasto")]
         [Required(ErrorMessage = "Proszę podać nazwę swojej miejscowości.", AllowEmptyStrings = false)]
         public string City { get; set; }
         public IEnumerable<string> Cities { get; set; }
-        [System.Web.Mvc.Remote("IsUserExists", "Account", ErrorMessage = "Użytkownik o podanym emailu już istnieje, proszę wybrać inny.")]
+        [System.Web.Mvc.Remote("IsUserExists", "Account", ErrorMessage = "Podany email jest już zajęty, proszę wybrać inny.")]
         [Required(ErrorMessage = "Proszę podać swój email")]
         [EmailAddress(ErrorMessage = "Podany email jest nieprawidłowy")]
         public string Email { get; set; }

@@ -19,7 +19,7 @@
                         @Html.AntiForgeryToken()
 
                         <div class="form-horizontal ">
-                            <div class="form-group">
+                            <div class="form-group required">
                                 @Html.LabelFor(model => model.Title, htmlAttributes: new { @class = "control-label col-md-2" })
                                 <div class="col-md-9">
                                     @Html.EditorFor(model => model.Title, new { htmlAttributes = new { @class = "form-control" } })
@@ -27,7 +27,7 @@
                                 </div>
                             </div>
 
-                            <div class="form-group">
+                            <div class="form-group required">
                                 @Html.LabelFor(model => model.FilmGenre, htmlAttributes: new { @class = "control-label col-md-2" })
                                 <div class="col-md-9">
                                     @Html.DropDownListFor(model => model.FilmGenre, Model.FilmGenres, new { @class = "form-control" })
@@ -35,7 +35,7 @@
                                 </div>
                             </div>
 
-                            <div class="form-group">
+                            <div class="form-group required">
                                 @Html.LabelFor(model => model.Duration, htmlAttributes: new { @class = "control-label col-md-2" })
                                 <div class="col-md-9">
                                     @Html.EditorFor(model => model.Duration, new { htmlAttributes = new { @class = "form-control", placeholder = "00:00:00" } })
@@ -43,7 +43,7 @@
                                 </div>
                             </div>
 
-                            <div class="form-group">
+                            <div class="form-group required">
                                 @Html.LabelFor(model => model.Creator, htmlAttributes: new { @class = "control-label col-md-2" })
                                 <div class="col-md-9">
                                     @Html.DropDownListFor(model => model.Creator, Model.Creators, new { @class = "form-control" })
@@ -59,7 +59,7 @@
                                 </div>
                             </div>
 
-                            <div class="form-group">
+                            <div class="form-group required">
                                 @Html.LabelFor(model => model.Image, htmlAttributes: new { @class = "control-label col-md-2" })
                                 <div class="col-md-9">
                                     <input type="file" name="ImageFile" accept="image/*">
@@ -67,21 +67,11 @@
                                 </div>
                             </div>
 
-                            @*<div class="form-group">
-                                    @Html.LabelFor(model => model.Deleted, htmlAttributes: new { @class = "control-label col-md-2" })
-                                    <div class="col-md-10">
-                                        <div class="checkbox">
-                                            @Html.EditorFor(model => model.Deleted)
-                                            @Html.ValidationMessageFor(model => model.Deleted, "", new { @class = "text-danger" })
-                                        </div>
-                                    </div>
-                                </div>*@
-
                             @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
                             <div class="form-group">
                                 <div class="col-md-offset-2 col-md-10">
-                                    <input type="submit" value="Dodaj" class="btn btn-success" />
+                                    <input type="submit" value="Zapisz" class="btn btn-success" />
                                 </div>
                             </div>
                         </div>
@@ -100,6 +90,11 @@
 </div>
 
 <style>
+    .form-group.required .control-label:after {
+        content: "*";
+        color: red;
+    }
+
     input,
     select,
     textarea {

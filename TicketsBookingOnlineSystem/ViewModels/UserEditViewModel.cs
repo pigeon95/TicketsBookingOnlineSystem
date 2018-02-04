@@ -17,14 +17,16 @@ namespace TicketsBookingOnlineSystem.ViewModels
         [DisplayName("Nazwisko")]
         [Required(ErrorMessage = "Proszę podać swoje nazwisko.", AllowEmptyStrings = false)]
         public string Surname { get; set; }
-        [DisplayName("Hasło")]
-        [Required(ErrorMessage = "Proszę podać swoje hasło.", AllowEmptyStrings = false)]
-        [StringLength(50, MinimumLength = 8, ErrorMessage = "Hasło musi posiadać conajmniej 8 znaków.")]
-        public string Password { get; set; }
-        [DisplayName("Powtórz hasło")]
-        [Compare("Password", ErrorMessage = "Podane hasło się nie zgadza.")]
-        public string ConfirmPassword { get; set; }
+        //[DisplayName("Hasło")]
+        //[Required(ErrorMessage = "Proszę podać swoje hasło.", AllowEmptyStrings = false)]
+        //[StringLength(50, MinimumLength = 8, ErrorMessage = "Hasło musi posiadać conajmniej 8 znaków.")]
+        //public string Password { get; set; }
+        //[DisplayName("Powtórz hasło")]
+        //[Compare("Password", ErrorMessage = "Podane hasło się nie zgadza.")]
+        //public string ConfirmPassword { get; set; }
+        [DisplayName("Adres")]
         public string Address { get; set; }
+        [DisplayName("Telefon")]
         public string Phone { get; set; }
         [DisplayName("Data urodzenia")]
         [DisplayFormat(DataFormatString = "{0:dd MMM yyyy}", ApplyFormatInEditMode = true)]

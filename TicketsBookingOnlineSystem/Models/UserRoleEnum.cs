@@ -8,6 +8,7 @@ namespace TicketsBookingOnlineSystem.Models
     public enum UserRoleEnum: int
     {
         User = 0,
-        Admin = 1
+        Admin = 1,
+        Dealer = 2,
     }
 }

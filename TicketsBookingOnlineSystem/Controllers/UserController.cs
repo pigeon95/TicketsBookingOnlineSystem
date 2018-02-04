@@ -22,7 +22,7 @@ namespace TicketsBookingOnlineSystem.Controllers
             int userId = HttpContext.User.Identity.GetUserId<int>();
 
             var user = db.Users
-                .AsQueryable()
+                //.AsQueryable()
                 .Include(u => u.City)
                 .FirstOrDefault(u => u.Id == userId);
 
@@ -30,7 +30,7 @@ namespace TicketsBookingOnlineSystem.Controllers
             {
                 Name = user.Name,
                 Surname = user.Surname,
-                Password = user.Password,
+                //Password = user.Password,
                 Address = user.Address,
                 Phone = user.Phone,
                 BirthDate = user.BirthDate,
@@ -61,11 +61,13 @@ namespace TicketsBookingOnlineSystem.Controllers
             {
                 entity.Name = user.Name;
                 entity.Surname = user.Surname;
-                entity.Password = user.Password;
+                //entity.Password = user.Password;
                 entity.BirthDate = user.BirthDate;
                 entity.Address = user.Address;
                 entity.Phone = user.Phone;
+
                 var city = db.Cities.FirstOrDefault(c => c.Name == user.City);
+
                 if (city == null)
                 {
                     city = new City();
@@ -74,6 +76,7 @@ namespace TicketsBookingOnlineSystem.Controllers
                     db.Cities.Add(city);
                 }
 
+                entity.City = city;
                 entity.Email = user.Email;
 
                 db.Users.Attach(entity);

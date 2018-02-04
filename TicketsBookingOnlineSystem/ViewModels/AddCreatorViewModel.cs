@@ -11,7 +11,7 @@ namespace TicketsBookingOnlineSystem.ViewModels
     {
         public int Id { get; set; }
         [DisplayName("Tożsamość")]
-        [Required(ErrorMessage = "Proszę podać tożsamość reżysera", AllowEmptyStrings = false)]
+        [Required(ErrorMessage = "Proszę podać tożsamość reżysera.", AllowEmptyStrings = false)]
         public string Name { get; set; }
         [DisplayName("Opis")]
         public string Description { get; set; }

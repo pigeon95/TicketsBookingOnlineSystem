@@ -18,6 +18,10 @@ namespace TicketsBookingOnlineSystem.Models
         public DateTime? BirthDate { get; set; }
         public bool Deleted { get; set; }
 
+        public bool IsEmailVerified { get; set; }
+        public Guid ActivationCode { get; set; }
+        public string ResetPasswordCode { get; set; }
+
         public virtual City City { get; set; }
         public virtual IList<Reservation> Reservations { get; set; }
         public UserRoleEnum Role { get; set; }

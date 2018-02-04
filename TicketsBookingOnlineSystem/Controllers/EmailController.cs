@@ -12,15 +12,16 @@ namespace TicketsBookingOnlineSystem.Controllers
 {
     public class EmailController : Controller
     {
+        [Authorize(Roles = "Admin, Dealer")]
         public ActionResult Contact()
         {
-            //EmailFormModel test = new EmailFormModel() { Email = "kacperx95@gmail.com", Message = "erere", Subject = "fdgdfgf" };
             return View();
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Senda(EmailFormModel model)
+        [Authorize(Roles = "Admin, Dealer")]
+        public async Task<ActionResult> Send(EmailFormModel model)
         {
             if (ModelState.IsValid)
             {
