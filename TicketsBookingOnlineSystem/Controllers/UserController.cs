@@ -63,6 +63,11 @@ namespace TicketsBookingOnlineSystem.Controllers
                 entity.Surname = user.Surname;
                 //entity.Password = user.Password;
                 entity.BirthDate = user.BirthDate;
+                if (entity.BirthDate > DateTime.Now.AddYears(-5))
+                {
+                    ModelState.AddModelError("", "Data urodzenia jest nieprawidłowa.");
+                    return View(user);
+                }
                 entity.Address = user.Address;
                 entity.Phone = user.Phone;
 

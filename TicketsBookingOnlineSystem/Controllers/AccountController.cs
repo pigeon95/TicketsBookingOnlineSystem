@@ -115,7 +115,7 @@ namespace TicketsBookingOnlineSystem.Controllers
 
             if (!ModelState.IsValid)
             {
-                return View();
+                return View(model);
             }
 
             User user = new User();
@@ -130,6 +130,15 @@ namespace TicketsBookingOnlineSystem.Controllers
             user.IsEmailVerified = false;
 
             user.BirthDate = model.BirthDate;
+
+            if(user.BirthDate > DateTime.Now.AddYears(-5))
+            {
+                return Json(new
+                {
+                    isok = false,
+                    message = "Podana data urodzenia jest nieprawidłowa."
+                });
+            }
             user.Address = model.Address;
             user.Phone = model.Phone;
             user.Email = model.Email;

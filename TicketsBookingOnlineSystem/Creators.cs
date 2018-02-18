@@ -23,7 +23,6 @@ namespace TicketsBookingOnlineSystem
         public int Id { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
-        public bool Deleted { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Films> Films { get; set; }

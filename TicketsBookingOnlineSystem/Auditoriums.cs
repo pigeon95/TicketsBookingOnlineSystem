@@ -17,17 +17,16 @@ namespace TicketsBookingOnlineSystem
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Auditoriums()
         {
-            this.Rows = new HashSet<Rows>();
             this.Seances = new HashSet<Seances>();
+            this.Spots = new HashSet<Spots>();
         }
     
         public int Id { get; set; }
         public string Name { get; set; }
-        public bool Deleted { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Rows> Rows { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Seances> Seances { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Spots> Spots { get; set; }
     }
 }

@@ -28,9 +28,11 @@ namespace TicketsBookingOnlineSystem
         public string Phone { get; set; }
         public string Email { get; set; }
         public Nullable<System.DateTime> BirthDate { get; set; }
-        public bool Deleted { get; set; }
-        public Nullable<int> City_Id { get; set; }
+        public bool IsEmailVerified { get; set; }
+        public System.Guid ActivationCode { get; set; }
         public int Role { get; set; }
+        public Nullable<int> City_Id { get; set; }
+        public string ResetPasswordCode { get; set; }
     
         public virtual Cities Cities { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

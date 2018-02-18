@@ -31,7 +31,6 @@ namespace TicketsBookingOnlineSystem.ViewModels
         [DisplayName("Data urodzenia")]
         //[DataType(DataType.Date), DisplayFormat(DataFormatString = "{0:dd.MM.yy}", ApplyFormatInEditMode = true)]
         //[DisplayFormat(DataFormatString = "{0:dd.MM.yy}", ApplyFormatInEditMode = true)]
-        [Required(ErrorMessage = "Proszę uzupełnić pole.", AllowEmptyStrings = false)]
         public DateTime? BirthDate { get; set; }
         [DisplayName("Miasto")]
         [Required(ErrorMessage = "Proszę podać nazwę swojej miejscowości.", AllowEmptyStrings = false)]

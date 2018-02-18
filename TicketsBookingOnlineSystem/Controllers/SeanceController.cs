@@ -24,17 +24,20 @@ namespace TicketsBookingOnlineSystem.Controllers
         // GET: Seance
         public ActionResult Index(int id)
         {
-            var entity = db.Seances
+            var seances = db.Seances
                 .FirstOrDefault(x => x.Id == id);
 
-            if (entity == null)
+            if (seances == null)
             {
-                //errorfilmu nie znaleziono
-                return View();
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-            var model = Mapper.Map<SeanceViewModel>(entity);
-            model.LocationArrangement = entity.Auditorium.LocationArrangement;
+            var model = Mapper.Map<SeanceViewModel>(seances);
+
+            if (model == null)
+            {
+                return HttpNotFound();
+            }
 
             return View(model);
         }
@@ -110,7 +113,17 @@ namespace TicketsBookingOnlineSystem.Controllers
         {
             var reservations = db.Reservations.Where(x => x.SeanceId == id).ToList();
 
+            if (reservations == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
             var model = new List<JsonReservationInfoViewModel>();
+
+            if (model == null)
+            {
+                return HttpNotFound();
+            }
 
             foreach (var reservation in reservations)
             {

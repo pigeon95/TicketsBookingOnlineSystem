@@ -23,11 +23,10 @@ namespace TicketsBookingOnlineSystem
         public int Id { get; set; }
         public System.TimeSpan Duration { get; set; }
         public string Title { get; set; }
-        public bool Deleted { get; set; }
-        public Nullable<int> FilmGenre_Id { get; set; }
         public string Description { get; set; }
-        public Nullable<int> Creator_Id { get; set; }
         public string Image { get; set; }
+        public Nullable<int> Creator_Id { get; set; }
+        public Nullable<int> FilmGenre_Id { get; set; }
     
         public virtual Creators Creators { get; set; }
         public virtual FilmGenres FilmGenres { get; set; }

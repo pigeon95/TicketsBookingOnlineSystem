@@ -24,7 +24,6 @@ namespace TicketsBookingOnlineSystem
         public string Name { get; set; }
         public decimal Price { get; set; }
         public System.DateTime Date { get; set; }
-        public bool Deleted { get; set; }
         public Nullable<int> Auditorium_Id { get; set; }
         public Nullable<int> Film_Id { get; set; }
     

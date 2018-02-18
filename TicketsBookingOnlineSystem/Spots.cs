@@ -21,11 +21,12 @@ namespace TicketsBookingOnlineSystem
         }
     
         public int Id { get; set; }
+        public int Col { get; set; }
+        public int Row { get; set; }
         public string Name { get; set; }
-        public bool Deleted { get; set; }
-        public Nullable<int> Row_Id { get; set; }
+        public Nullable<int> Auditorium_Id { get; set; }
     
-        public virtual Rows Rows { get; set; }
+        public virtual Auditoriums Auditoriums { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Reservations> Reservations { get; set; }
     }

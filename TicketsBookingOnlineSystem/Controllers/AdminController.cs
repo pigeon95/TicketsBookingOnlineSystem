@@ -653,7 +653,7 @@ namespace TicketsBookingOnlineSystem.Controllers
 
             if (db.Users.Any(x => x.Email == model.Email))
             {
-                ModelState.AddModelError(String.Empty, "Ten seans jest już używany dla innego filmu.");
+                ModelState.AddModelError(String.Empty, "Ten email jest już używany dla innego użytkownika.");
 
                 return View(model);
             }
@@ -664,6 +664,11 @@ namespace TicketsBookingOnlineSystem.Controllers
             user.Address = model.Address;
             user.Phone = model.Phone;
             user.BirthDate = model.BirthDate;
+            if (user.BirthDate > DateTime.Now.AddYears(-5))
+            {
+                ModelState.AddModelError("", "Data urodzenia jest nieprawidłowa.");
+                return View(model);
+            }
             user.Email = model.Email;
 
             var city = db.Cities.FirstOrDefault(c => c.Name == model.City);
